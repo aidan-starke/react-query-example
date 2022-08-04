@@ -41,8 +41,8 @@ const Address: NextPage<AddressProps> = ({ address, accountData }) => {
 			</div>
 			<div className="grid grid-cols-2 gap-4">
 				<div>
-					<h1 className="text-xl">Transfers In</h1>
-					<div className="border-2 rounded h-full p-2 overflow-y-auto">
+					<div className="border-2 rounded h-full p-2 overflow-y-auto max-h-[85vh]">
+						<h1 className="text-xl font-mono p-2">Transfers In</h1>
 						{transfersIn?.map((transfer) => (
 							<Transfer
 								key={transfer?.id}
@@ -56,8 +56,8 @@ const Address: NextPage<AddressProps> = ({ address, accountData }) => {
 					</div>
 				</div>
 				<div>
-					<h1 className="text-xl">Transfers Out</h1>
-					<div className="border-2 rounded h-full p-2 overflow-y-auto">
+					<div className="border-2 rounded h-full p-2 overflow-y-auto max-h-[85vh]">
+						<h1 className="text-xl font-mono p-2">Transfers Out</h1>
 						{transfersOut?.map((transfer) => (
 							<Transfer
 								key={transfer?.id}
