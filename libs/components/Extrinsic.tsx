@@ -28,7 +28,12 @@ export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic }) => {
 					{viewArgs ? "Hide" : "View"} Args
 				</button>
 			</div>
-			<p className="text-sm font-mono prose truncate">{extrinsic?.signerId}</p>
+			<a
+				href={`/address/${extrinsic?.signerId}`}
+				className="text-sm font-mono prose truncate text-blue-600"
+			>
+				{extrinsic?.signerId}
+			</a>
 			<p>{getDistance(extrinsic?.timestamp as string)}</p>
 			{viewArgs && (
 				<div className="border p-2 max-w-fit min-w-fit shadow rounded">
