@@ -12845,7 +12845,7 @@ export const GetAccountByIdDocument = `
     query GetAccountById($id: String!) {
   account(id: $id) {
     id
-    transferOut(orderBy: PRIMARY_KEY_ASC) {
+    transferOut(orderBy: TIMESTAMP_DESC) {
       nodes {
         id
         fromId
@@ -12855,7 +12855,7 @@ export const GetAccountByIdDocument = `
         timestamp
       }
     }
-    transferIn(orderBy: PRIMARY_KEY_ASC) {
+    transferIn(orderBy: TIMESTAMP_DESC) {
       nodes {
         id
         fromId
