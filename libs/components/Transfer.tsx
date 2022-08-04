@@ -41,11 +41,21 @@ export const Transfer: FC<TransferProps> = ({
 			<div className="text-sm space-y-px">
 				<p className="truncate">
 					From&nbsp;
-					<span className="font-mono text-gray-500 text-xs">{from}</span>
+					<a
+						href={`/address/${from}`}
+						className="text-blue-600 font-mono text-xs"
+					>
+						{from}
+					</a>
 				</p>
 				<p className="truncate">
 					To&nbsp;
-					<span className="font-mono text-gray-500 text-xs">{to}</span>
+					<a
+						href={`/address/${to}`}
+						className="text-blue-600 font-mono text-xs"
+					>
+						{to}
+					</a>
 				</p>
 			</div>
 

@@ -6,9 +6,8 @@ import {
 	GetExtrinsicByIdQuery,
 } from "@/libs/api/generated";
 import { Extrinsic } from "@/libs/components";
-import { FC, ReactNode } from "react";
-import clsx from "clsx";
 import { fetchData } from "@/libs/utils/prefetch";
+import { Layout } from "@/libs/components/Layout";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const blockData = (await fetchData(GetBlockByIdDocument, {
@@ -49,16 +48,19 @@ const Block: NextPage<BlockProps> = ({ block, extrinsics }) => {
 				</p>
 			</div>
 			<div className="border-2 rounded h-full p-2 overflow-y-auto">
-				<TableRow rowClassName="text-lg">
+				<Layout.TableRow rowClassName="text-lg grid-cols-4">
 					<p>Tx Hash</p>
 					<p>Method</p>
 					<p>Signer</p>
 					<p>Age</p>
-				</TableRow>
+				</Layout.TableRow>
 				{extrinsics?.map((extrinsic) => (
-					<TableRow rowClassName="space-y-px" key={extrinsic?.id}>
+					<Layout.TableRow
+						rowClassName="space-y-px grid-cols-4"
+						key={extrinsic?.id}
+					>
 						<Extrinsic extrinsic={extrinsic} />
-					</TableRow>
+					</Layout.TableRow>
 				))}
 			</div>
 		</div>
@@ -66,19 +68,3 @@ const Block: NextPage<BlockProps> = ({ block, extrinsics }) => {
 };
 
 export default Block;
-
-interface TableRowProps {
-	children: ReactNode;
-	rowClassName?: string;
-}
-
-const TableRow: FC<TableRowProps> = ({ children, rowClassName }) => (
-	<div
-		className={clsx(
-			rowClassName,
-			"grid grid-cols-4 gap-4 border-b items-center p-4 space-x-4"
-		)}
-	>
-		{children}
-	</div>
-);
