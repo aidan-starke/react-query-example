@@ -1,0 +1,11 @@
+query GetExtrinsicById($id: String!) {
+	extrinsic(id: $id) {
+		id
+		section
+		method
+		args
+		signerId
+		timestamp
+		tip
+	}
+}

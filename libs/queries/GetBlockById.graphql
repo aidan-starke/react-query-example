@@ -1,0 +1,13 @@
+query GetBlockById($id: String!) {
+	block(id: $id) {
+		id
+		number
+		extrinsics(orderBy: TIMESTAMP_DESC) {
+			edges {
+				node {
+					id
+				}
+			}
+		}
+	}
+}

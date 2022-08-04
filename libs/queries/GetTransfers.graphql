@@ -1,0 +1,12 @@
+query GetTransfers {
+	transfers(orderBy: TIMESTAMP_DESC, first: 20) {
+		nodes {
+			id
+			fromId
+			toId
+			tokenId
+			amount
+			timestamp
+		}
+	}
+}

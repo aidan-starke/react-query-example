@@ -1,0 +1,17 @@
+query GetBlocks {
+	blocks(orderBy: NUMBER_DESC, first: 20) {
+		nodes {
+			id
+			number
+			timestamp
+			parentHash
+			extrinsics {
+				edges {
+					node {
+						id
+					}
+				}
+			}
+		}
+	}
+}
