@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import { client } from "@/libs/client";
 
@@ -8,13 +8,16 @@ export const usePolling = <T>(
 	queryParams?: Record<string, unknown>,
 	refetchInterval: number = 5000
 ) => {
+	const [polledData, setPolledData] = useState<T>(initialData);
+
 	const { data, isFetching } = queryFunction(client, queryParams, {
 		refetchInterval,
 		refetchIntervalInBackground: true,
 	});
 
-	return useMemo<T>(
-		() => (data ? data : initialData),
-		[data, initialData, isFetching]
-	);
+	useEffect(() => {
+		setPolledData(data);
+	}, [data, isFetching]);
+
+	return polledData;
 };
