@@ -1,20 +1,22 @@
 import type { GetServerSideProps, NextPage } from "next";
 import {
-	GetBlockByIdDocument,
-	GetBlockByIdQuery,
+	GetBlockByNumberDocument,
+	GetBlockByNumberQuery,
 	GetExtrinsicByIdDocument,
 	GetExtrinsicByIdQuery,
 } from "@/libs/api/generated";
 import { Extrinsic } from "@/libs/components";
 import { fetchData } from "@/libs/utils/prefetch";
 import { Layout } from "@/libs/components/Layout";
+import Decimal from "decimal.js";
+import { AcalaBlock } from "@/libs/types";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const blockData = (await fetchData(GetBlockByIdDocument, {
-		id: context?.params?.hash,
-	})) as GetBlockByIdQuery;
+	const { blocks } = (await fetchData(GetBlockByNumberDocument, {
+		number: new Decimal(context?.params?.number as string),
+	})) as GetBlockByNumberQuery;
 	const extrinsics = await Promise.all(
-		(blockData?.block?.extrinsics?.edges as any)?.map(
+		(blocks?.nodes[0]?.extrinsics?.edges as any)?.map(
 			async ({ node }: { node: { id: string } }) =>
 				await fetchData(GetExtrinsicByIdDocument, {
 					id: node?.id,
@@ -24,14 +26,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	return {
 		props: {
-			block: blockData.block,
+			block: blocks?.nodes[0],
 			extrinsics: extrinsics.map((extrinsic) => extrinsic.extrinsic),
 		},
 	};
 };
 
 interface BlockProps {
-	block: GetBlockByIdQuery["block"];
+	block: AcalaBlock;
 	extrinsics: Array<GetExtrinsicByIdQuery["extrinsic"]>;
 }
 

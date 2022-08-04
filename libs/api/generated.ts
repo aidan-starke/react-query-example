@@ -12782,6 +12782,29 @@ export type GetBlockByIdQuery = {
 	} | null;
 };
 
+export type GetBlockByNumberQueryVariables = Exact<{
+	number?: InputMaybe<Scalars["BigFloat"]>;
+}>;
+
+export type GetBlockByNumberQuery = {
+	__typename?: "Query";
+	blocks?: {
+		__typename?: "BlocksConnection";
+		nodes: Array<{
+			__typename?: "Block";
+			id: string;
+			number?: any | null;
+			extrinsics: {
+				__typename?: "ExtrinsicsConnection";
+				edges: Array<{
+					__typename?: "ExtrinsicsEdge";
+					node?: { __typename?: "Extrinsic"; id: string } | null;
+				}>;
+			};
+		} | null>;
+	} | null;
+};
+
 export type GetBlocksQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetBlocksQuery = {
@@ -12916,6 +12939,44 @@ export const useGetBlockByIdQuery = <
 		fetcher<GetBlockByIdQuery, GetBlockByIdQueryVariables>(
 			client,
 			GetBlockByIdDocument,
+			variables,
+			headers
+		),
+		options
+	);
+export const GetBlockByNumberDocument = `
+    query GetBlockByNumber($number: BigFloat) {
+  blocks(filter: {number: {equalTo: $number}}) {
+    nodes {
+      id
+      number
+      extrinsics(orderBy: TIMESTAMP_DESC) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export const useGetBlockByNumberQuery = <
+	TData = GetBlockByNumberQuery,
+	TError = unknown
+>(
+	client: GraphQLClient,
+	variables?: GetBlockByNumberQueryVariables,
+	options?: UseQueryOptions<GetBlockByNumberQuery, TError, TData>,
+	headers?: RequestInit["headers"]
+) =>
+	useQuery<GetBlockByNumberQuery, TError, TData>(
+		variables === undefined
+			? ["GetBlockByNumber"]
+			: ["GetBlockByNumber", variables],
+		fetcher<GetBlockByNumberQuery, GetBlockByNumberQueryVariables>(
+			client,
+			GetBlockByNumberDocument,
 			variables,
 			headers
 		),

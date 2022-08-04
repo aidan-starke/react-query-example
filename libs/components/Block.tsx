@@ -2,11 +2,12 @@ import { FC } from "react";
 import { getDistance } from "@/libs/utils";
 
 interface BlockProps {
-	hash: string | undefined;
-	height: number | undefined;
-	timestamp: string | undefined;
-	parentHash: string | null | undefined;
-	extrinsics: (string | undefined)[] | undefined;
+	hash?: string;
+	height?: number;
+	timestamp?: string;
+	parentHash?: string | null;
+	extrinsics?: (string | undefined)[];
+	number?: string;
 }
 
 export const Block: FC<BlockProps> = ({
@@ -15,6 +16,7 @@ export const Block: FC<BlockProps> = ({
 	timestamp,
 	parentHash,
 	extrinsics,
+	number,
 }) => {
 	return (
 		<div className="p-4 grid grid-cols-3 items-center border-b">
@@ -25,7 +27,7 @@ export const Block: FC<BlockProps> = ({
 				<div>
 					<a
 						className="text-blue-600 font-mono text-sm"
-						href={`/extrinsics/${hash}`}
+						href={`/block/${number}`}
 					>
 						{height}
 					</a>

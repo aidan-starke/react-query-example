@@ -42,6 +42,7 @@ const Home: NextPage<HomeProps> = () => {
 						height={block?.number}
 						timestamp={block?.timestamp}
 						parentHash={block?.parentHash}
+						number={block?.number}
 						extrinsics={block?.extrinsics?.edges
 							?.map(({ node }) => node?.id)
 							.filter((e) => e?.length)}
