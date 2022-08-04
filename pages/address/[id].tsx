@@ -1,23 +1,23 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { prefetch } from "@/libs/utils/prefetch";
+import { fetchData } from "@/libs/utils/prefetch";
 import {
 	GetAccountByIdDocument,
 	GetAccountByIdQuery,
 	useGetAccountByIdQuery,
 } from "@/libs/api/generated";
 import { usePolling } from "@/libs/hooks";
-import { dehydrate } from "@tanstack/react-query";
-import { queryClient } from "@/libs/client";
 import { Transfer } from "@/libs/components";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const address = context?.params?.id;
-	await prefetch("GetAccountById", GetAccountByIdDocument);
+	const accountData = (await fetchData(GetAccountByIdDocument, {
+		id: address,
+	})) as GetAccountByIdQuery;
 
 	return {
 		props: {
 			address,
-			dehydratedState: dehydrate(queryClient),
+			accountData,
 		},
 	};
 };
