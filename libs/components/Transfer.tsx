@@ -30,7 +30,7 @@ export const Transfer: FC<TransferProps> = ({
 	return (
 		<div className="p-4 grid grid-cols-3 items-center border-b">
 			<div className="flex space-x-2">
-				<div className="bg-gray-200 h-12 w-12 flex items-center rounded-3xl">
+				<div className="prose bg-gray-200 h-12 w-12 flex items-center rounded-3xl">
 					<p className="text-center w-full">Tx</p>
 				</div>
 				<div className="flex items-center">

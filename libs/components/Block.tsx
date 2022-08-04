@@ -19,11 +19,14 @@ export const Block: FC<BlockProps> = ({
 	return (
 		<div className="p-4 grid grid-cols-3 items-center border-b">
 			<div className="flex space-x-2">
-				<div className="bg-gray-200 h-12 w-12 flex items-center rounded">
+				<div className="prose bg-gray-200 h-12 w-12 flex items-center rounded">
 					<p className="text-center w-full">Bk</p>
 				</div>
 				<div>
-					<a className="text-blue-600" href={`/extrinsics/${hash}`}>
+					<a
+						className="text-blue-600 font-mono text-sm"
+						href={`/extrinsics/${hash}`}
+					>
 						{height}
 					</a>
 					<p className="text-sm">{getDistance(timestamp as string)}</p>
