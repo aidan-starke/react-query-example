@@ -13,7 +13,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
 	[SubKey in K]: Maybe<T[SubKey]>;
 };
 
-function fetcher<TData, TVariables>(
+export function fetcher<TData, TVariables>(
 	client: GraphQLClient,
 	query: string,
 	variables?: TVariables,

@@ -1,12 +1,40 @@
 import {
+	fetcher,
+	GetBlocksDocument,
 	GetBlocksQuery,
+	GetBlocksQueryVariables,
 	GetTransfersQuery,
+	GetTransfersQueryVariables,
 	useGetBlocksQuery,
 	useGetTransfersQuery,
+	GetTransfersDocument,
 } from "@/libs/api/generated";
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import { usePolling } from "@/libs/hooks";
 import { Block, Transfer } from "@/libs/components";
+import { queryClient, client } from "@/libs/client";
+import { dehydrate } from "@tanstack/react-query";
+
+export const getStaticProps: GetStaticProps = async () => {
+	await queryClient.prefetchQuery(
+		["GetBlocks"],
+		fetcher<GetBlocksQuery, GetBlocksQueryVariables>(client, GetBlocksDocument)
+	);
+
+	await queryClient.prefetchQuery(
+		["GetTransfers"],
+		fetcher<GetTransfersQuery, GetTransfersQueryVariables>(
+			client,
+			GetTransfersDocument
+		)
+	);
+
+	return {
+		props: {
+			dehydratedState: dehydrate(queryClient),
+		},
+	};
+};
 
 interface HomeProps {}
 
