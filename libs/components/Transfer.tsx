@@ -4,11 +4,11 @@ import { utils as ethers } from "ethers";
 import { getDistance } from "@/libs/utils";
 
 interface TransferProps {
-	timestamp: string | undefined;
-	from: string | null | undefined;
-	to: string | null | undefined;
-	amount: string | null | undefined;
-	token: string | null | undefined;
+	timestamp?: string | null;
+	from?: string | null;
+	to?: string | null;
+	amount?: string | null;
+	token?: string | null;
 }
 
 export const Transfer: FC<TransferProps> = ({
@@ -31,7 +31,7 @@ export const Transfer: FC<TransferProps> = ({
 		<div className="p-4 grid grid-cols-3 items-center border-b">
 			<div className="flex space-x-2">
 				<div className="prose bg-gray-200 h-12 w-12 flex items-center rounded-3xl">
-					<p className="text-center w-full">Tx</p>
+					<p className="text-center w-full">Tf</p>
 				</div>
 				<div className="flex items-center">
 					<p className="text-sm">{getDistance(timestamp as string)}</p>

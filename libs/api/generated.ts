@@ -12744,6 +12744,7 @@ export type GetAccountByIdQuery = {
 				toId?: string | null;
 				tokenId?: string | null;
 				amount?: string | null;
+				timestamp?: any | null;
 			} | null>;
 		};
 		transferIn: {
@@ -12755,6 +12756,7 @@ export type GetAccountByIdQuery = {
 				toId?: string | null;
 				tokenId?: string | null;
 				amount?: string | null;
+				timestamp?: any | null;
 			} | null>;
 		};
 	} | null;
@@ -12850,6 +12852,7 @@ export const GetAccountByIdDocument = `
         toId
         tokenId
         amount
+        timestamp
       }
     }
     transferIn(orderBy: PRIMARY_KEY_ASC) {
@@ -12859,6 +12862,7 @@ export const GetAccountByIdDocument = `
         toId
         tokenId
         amount
+        timestamp
       }
     }
   }
