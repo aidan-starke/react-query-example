@@ -12726,6 +12726,40 @@ export type _Metadata = {
 	targetHeight?: Maybe<Scalars["Int"]>;
 };
 
+export type GetAccountByIdQueryVariables = Exact<{
+	id: Scalars["String"];
+}>;
+
+export type GetAccountByIdQuery = {
+	__typename?: "Query";
+	account?: {
+		__typename?: "Account";
+		id: string;
+		transferOut: {
+			__typename?: "TransfersConnection";
+			nodes: Array<{
+				__typename?: "Transfer";
+				id: string;
+				fromId?: string | null;
+				toId?: string | null;
+				tokenId?: string | null;
+				amount?: string | null;
+			} | null>;
+		};
+		transferIn: {
+			__typename?: "TransfersConnection";
+			nodes: Array<{
+				__typename?: "Transfer";
+				id: string;
+				fromId?: string | null;
+				toId?: string | null;
+				tokenId?: string | null;
+				amount?: string | null;
+			} | null>;
+		};
+	} | null;
+};
+
 export type GetBlockByIdQueryVariables = Exact<{
 	id: Scalars["String"];
 }>;
@@ -12805,6 +12839,50 @@ export type GetTransfersQuery = {
 	} | null;
 };
 
+export const GetAccountByIdDocument = `
+    query GetAccountById($id: String!) {
+  account(id: $id) {
+    id
+    transferOut(orderBy: PRIMARY_KEY_ASC) {
+      nodes {
+        id
+        fromId
+        toId
+        tokenId
+        amount
+      }
+    }
+    transferIn(orderBy: PRIMARY_KEY_ASC) {
+      nodes {
+        id
+        fromId
+        toId
+        tokenId
+        amount
+      }
+    }
+  }
+}
+    `;
+export const useGetAccountByIdQuery = <
+	TData = GetAccountByIdQuery,
+	TError = unknown
+>(
+	client: GraphQLClient,
+	variables: GetAccountByIdQueryVariables,
+	options?: UseQueryOptions<GetAccountByIdQuery, TError, TData>,
+	headers?: RequestInit["headers"]
+) =>
+	useQuery<GetAccountByIdQuery, TError, TData>(
+		["GetAccountById", variables],
+		fetcher<GetAccountByIdQuery, GetAccountByIdQueryVariables>(
+			client,
+			GetAccountByIdDocument,
+			variables,
+			headers
+		),
+		options
+	);
 export const GetBlockByIdDocument = `
     query GetBlockById($id: String!) {
   block(id: $id) {

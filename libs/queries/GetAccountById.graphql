@@ -1,0 +1,23 @@
+query GetAccountById($id: String!) {
+	account(id: $id) {
+		id
+		transferOut(orderBy: PRIMARY_KEY_ASC) {
+			nodes {
+				id
+				fromId
+				toId
+				tokenId
+				amount
+			}
+		}
+		transferIn(orderBy: PRIMARY_KEY_ASC) {
+			nodes {
+				id
+				fromId
+				toId
+				tokenId
+				amount
+			}
+		}
+	}
+}
