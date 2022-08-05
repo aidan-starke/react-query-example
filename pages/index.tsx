@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 
 import {
 	GetBlocksDocument,
@@ -14,7 +14,7 @@ import { queryClient } from "@/libs/client";
 import { dehydrate } from "@tanstack/react-query";
 import { prefetch } from "@/libs/utils/prefetch";
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
 	await prefetch("GetBlocks", GetBlocksDocument);
 	await prefetch("GetTransfers", GetTransfersDocument);
 
