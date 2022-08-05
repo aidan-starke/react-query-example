@@ -14,7 +14,7 @@ export const usePolling = <T>(
 	});
 
 	return useMemo<T>(
-		() => (isFetching && !data ? initialData : data),
+		() => (data ? data : initialData),
 		[data, initialData, isFetching]
 	);
 };

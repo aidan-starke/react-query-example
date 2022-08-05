@@ -39,7 +39,7 @@ interface BlockProps {
 
 const Block: NextPage<BlockProps> = ({ block, extrinsics }) => {
 	return (
-		<div className="h-screen p-8 m-auto space-y-4">
+		<div className="h-screen p-8 m-auto space-y-4 max-h-[89vh]">
 			<div>
 				<h1 className="text-xl">Extrinsics</h1>
 				<p>

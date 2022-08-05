@@ -32,8 +32,11 @@ const Home: NextPage<HomeProps> = () => {
 	const { transfers } = usePolling<GetTransfersQuery>({}, useGetTransfersQuery);
 
 	return (
-		<div className="h-screen p-8 m-auto grid grid-cols-2 gap-4">
-			<div className="border-2 rounded h-full overflow-y-auto p-2">
+		<div className="h-screen p-8 m-auto grid grid-cols-2 gap-4 max-h-[95vh]">
+			<div
+				className="border-2 rounded h-full overflow-y-auto p-2"
+				suppressHydrationWarning
+			>
 				<h1 className="text-xl font-mono p-4">Latest Blocks</h1>
 				{blocks?.nodes.map((block) => (
 					<Block
@@ -49,7 +52,10 @@ const Home: NextPage<HomeProps> = () => {
 					/>
 				))}
 			</div>
-			<div className="border-2 rounded h-full overflow-y-auto p-2">
+			<div
+				className="border-2 rounded h-full overflow-y-auto p-2"
+				suppressHydrationWarning
+			>
 				<h1 className="text-xl font-mono p-4">Latest Transfers</h1>
 				{transfers?.nodes.map((transfer) => (
 					<Transfer

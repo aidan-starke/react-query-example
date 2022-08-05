@@ -33,7 +33,7 @@ const Address: NextPage<AddressProps> = ({ address, accountData }) => {
 	} = useAccount(address, accountData);
 
 	return (
-		<div className="h-screen p-8 m-auto space-y-4">
+		<div className="h-screen p-8 m-auto space-y-4 max-h-[95vh]">
 			<div>
 				<h1 className="text-xl">
 					Address <span className="prose font-mono text-sm">{address}</span>
@@ -41,7 +41,10 @@ const Address: NextPage<AddressProps> = ({ address, accountData }) => {
 			</div>
 			<div className="grid grid-cols-2 gap-4">
 				<div>
-					<div className="border-2 rounded h-full p-2 overflow-y-auto max-h-[85vh]">
+					<div
+						className="border-2 rounded h-full p-2 overflow-y-auto max-h-[85vh]"
+						suppressHydrationWarning
+					>
 						<h1 className="text-xl font-mono p-2">Transfers In</h1>
 						{transfersIn?.map((transfer) => (
 							<Transfer
@@ -56,7 +59,10 @@ const Address: NextPage<AddressProps> = ({ address, accountData }) => {
 					</div>
 				</div>
 				<div>
-					<div className="border-2 rounded h-full p-2 overflow-y-auto max-h-[85vh]">
+					<div
+						className="border-2 rounded h-full p-2 overflow-y-auto max-h-[85vh]"
+						suppressHydrationWarning
+					>
 						<h1 className="text-xl font-mono p-2">Transfers Out</h1>
 						{transfersOut?.map((transfer) => (
 							<Transfer
@@ -89,7 +95,7 @@ const useAccount = (address: string, initialData: GetAccountByIdQuery) => {
 	const transfersIn = account?.transferIn?.nodes;
 
 	return {
-		account: account,
+		account,
 		transfers: [transfersOut, transfersIn],
 	};
 };
