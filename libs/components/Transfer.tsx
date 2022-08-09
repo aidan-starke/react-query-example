@@ -1,14 +1,11 @@
 import { FC, useMemo } from "react";
 import { utils as ethers } from "ethers";
 import {
-	applyDarkModeBackground,
-	applyDarkModeBorder,
-	applyDarkModeLink,
-	applyDarkModeText,
 	getDistance,
 } from "@/libs/utils";
 import { useTheme } from "@/libs/hooks";
 import { Layout } from "@/libs/components";
+import clsx from "clsx";
 
 interface TransferProps {
 	timestamp?: string | null;
@@ -39,9 +36,9 @@ export const Transfer: FC<TransferProps> = ({
 		<Layout.TableWrapper>
 			<div className="flex space-x-2">
 				<div
-					className={applyDarkModeBackground(
+					className={clsx(
 						"prose bg-gray-200 h-12 w-12 flex items-center rounded-3xl",
-						isDarkMode
+						isDarkMode && "bg-gray-300"
 					)}
 				>
 					<p className="text-center w-full">Tf</p>
@@ -56,9 +53,9 @@ export const Transfer: FC<TransferProps> = ({
 					From&nbsp;
 					<a
 						href={`/address/${from}`}
-						className={applyDarkModeLink(
+						className={clsx(
 							"text-blue-600 font-mono text-sm",
-							isDarkMode
+							isDarkMode && "text-blue-200"
 						)}
 					>
 						{from}
@@ -68,9 +65,9 @@ export const Transfer: FC<TransferProps> = ({
 					To&nbsp;
 					<a
 						href={`/address/${to}`}
-						className={applyDarkModeLink(
+						className={clsx(
 							"text-blue-600 font-mono text-sm",
-							isDarkMode
+							isDarkMode && "text-blue-200"
 						)}
 					>
 						{to}
@@ -81,7 +78,10 @@ export const Transfer: FC<TransferProps> = ({
 			<div className="text-sm">
 				<p className="text-right">
 					<span
-						className={applyDarkModeText("font-mono text-gray-500", isDarkMode)}
+						className={clsx(
+							"font-mono text-gray-500",
+							isDarkMode && "text-gray-300"
+						)}
 					>
 						{value}
 					</span>{" "}

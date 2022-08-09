@@ -9,7 +9,6 @@ import { usePolling } from "@/libs/hooks";
 import { Transfer } from "@/libs/components";
 import { useTheme } from "@/libs/hooks";
 import clsx from "clsx";
-import { applyDarkModeText } from "@/libs/utils";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const address = context?.params?.id;
@@ -42,7 +41,10 @@ const Address: NextPage<AddressProps> = ({ address, accountData }) => {
 				<h1 className="text-xl">
 					Address{" "}
 					<span
-						className={applyDarkModeText("prose font-mono text-sm", isDarkMode)}
+						className={clsx(
+							"prose font-mono text-sm",
+							isDarkMode && "text-gray-300"
+						)}
 					>
 						{address}
 					</span>

@@ -1,9 +1,5 @@
 import { GetExtrinsicByIdQuery } from "@/libs/api/generated";
-import {
-	applyDarkModeLink,
-	applyDarkModeText,
-	getDistance,
-} from "@/libs/utils";
+import { getDistance } from "@/libs/utils";
 import { FC, useState } from "react";
 import JSONPretty from "react-json-pretty";
 import clsx from "clsx";
@@ -20,18 +16,18 @@ export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic }) => {
 	return (
 		<>
 			<p
-				className={applyDarkModeText(
+				className={clsx(
 					"truncate text-sm font-mono prose",
-					isDarkMode
+					isDarkMode && "text-gray-300"
 				)}
 			>
 				{extrinsic?.id}
 			</p>
 			<div className="flex items-center">
 				<p
-					className={applyDarkModeText(
+					className={clsx(
 						"prose flex-1 font-mono text-sm",
-						isDarkMode
+						isDarkMode && "text-gray-300"
 					)}
 				>
 					{extrinsic?.section}.{extrinsic?.method}
@@ -49,9 +45,9 @@ export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic }) => {
 			</div>
 			<a
 				href={`/address/${extrinsic?.signerId}`}
-				className={applyDarkModeLink(
+				className={clsx(
 					"text-sm font-mono prose truncate text-blue-600",
-					isDarkMode
+					isDarkMode && "text-blue-200"
 				)}
 			>
 				{extrinsic?.signerId}

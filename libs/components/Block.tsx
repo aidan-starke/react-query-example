@@ -1,12 +1,8 @@
 import { FC } from "react";
-import {
-	applyDarkModeLink,
-	applyDarkModeText,
-	getDistance,
-	applyDarkModeBackground,
-} from "@/libs/utils";
+import { getDistance } from "@/libs/utils";
 import { useTheme } from "@/libs/hooks";
 import { Layout } from "@/libs/components";
+import clsx from "clsx";
 
 interface BlockProps {
 	hash?: string;
@@ -31,18 +27,18 @@ export const Block: FC<BlockProps> = ({
 		<Layout.TableWrapper>
 			<div className="flex space-x-2">
 				<div
-					className={applyDarkModeBackground(
+					className={clsx(
 						"prose bg-gray-200 h-12 w-12 flex items-center rounded",
-						isDarkMode
+						isDarkMode && "bg-gray-300"
 					)}
 				>
 					<p className="text-center w-full">Bk</p>
 				</div>
 				<div>
 					<a
-						className={applyDarkModeLink(
+						className={clsx(
 							"text-blue-600 font-mono text-sm",
-							isDarkMode
+							isDarkMode && "text-blue-200"
 						)}
 						href={`/block/${number}`}
 					>
@@ -55,7 +51,10 @@ export const Block: FC<BlockProps> = ({
 			<div className="text-sm flex">
 				<p>
 					<span
-						className={applyDarkModeText("font-mono text-gray-500", isDarkMode)}
+						className={clsx(
+							"font-mono text-gray-500",
+							isDarkMode && "text-gray-300"
+						)}
 					>
 						{extrinsics?.length ?? 0}
 					</span>{" "}
@@ -67,9 +66,9 @@ export const Block: FC<BlockProps> = ({
 				<p className="flex">
 					Hash&nbsp;
 					<span
-						className={applyDarkModeText(
+						className={clsx(
 							"font-mono text-gray-500 truncate",
-							isDarkMode
+							isDarkMode && "text-gray-300"
 						)}
 					>
 						{hash}
@@ -78,9 +77,9 @@ export const Block: FC<BlockProps> = ({
 				<p className="flex">
 					Parent&nbsp;
 					<span
-						className={applyDarkModeText(
+						className={clsx(
 							"font-mono text-gray-500 truncate",
-							isDarkMode
+							isDarkMode && "text-gray-300"
 						)}
 					>
 						{parentHash}

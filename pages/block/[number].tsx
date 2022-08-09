@@ -11,7 +11,7 @@ import { Layout } from "@/libs/components/Layout";
 import Decimal from "decimal.js";
 import { AcalaBlock } from "@/libs/types";
 import { useTheme } from "@/libs/hooks";
-import { applyDarkModeText } from "@/libs/utils";
+import clsx from "clsx";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { blocks } = (await fetchData(GetBlockByNumberDocument, {
@@ -49,9 +49,9 @@ const Block: NextPage<BlockProps> = ({ block, extrinsics }) => {
 				<p>
 					For block{" "}
 					<span
-						className={applyDarkModeText(
+						className={clsx(
 							"font-mono text-sm text-gray-500",
-							isDarkMode
+							isDarkMode && "text-gray-300"
 						)}
 					>
 						{block?.number}

@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { FC, ReactNode } from "react";
 import { useTheme } from "@/libs/hooks";
-import { applyDarkModeBorder } from "@/libs/utils";
 
 interface TableRowProps {
 	children: ReactNode;
@@ -15,9 +14,9 @@ const TableRow: FC<TableRowProps> = ({ children, rowClassName }) => {
 		<div
 			className={clsx(
 				rowClassName,
-				applyDarkModeBorder(
+				clsx(
 					"grid gap-4 border-b items-center p-4 space-x-4",
-					isDarkMode
+					isDarkMode && "border-gray-400"
 				)
 			)}
 		>
@@ -41,9 +40,9 @@ const TableWrapper: FC<TableWrapperProps> = ({
 		<div
 			className={clsx(
 				wrapperClassName,
-				applyDarkModeBorder(
+				clsx(
 					"p-4 grid grid-cols-3 items-center border-b",
-					isDarkMode
+					isDarkMode && "border-gray-400"
 				)
 			)}
 		>
