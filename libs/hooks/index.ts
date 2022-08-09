@@ -1,2 +1,2 @@
 export * from "./usePolling";
-export * from "./useStore";
+export * from "./useTheme";

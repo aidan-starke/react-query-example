@@ -1,5 +1,12 @@
 import { FC } from "react";
-import { getDistance } from "@/libs/utils";
+import {
+	applyDarkModeLink,
+	applyDarkModeText,
+	getDistance,
+	applyDarkModeBackground,
+} from "@/libs/utils";
+import { useTheme } from "@/libs/hooks";
+import { Layout } from "@/libs/components";
 
 interface BlockProps {
 	hash?: string;
@@ -18,15 +25,25 @@ export const Block: FC<BlockProps> = ({
 	extrinsics,
 	number,
 }) => {
+	const isDarkMode = useTheme((state) => state.theme === "Dark");
+
 	return (
-		<div className="p-4 grid grid-cols-3 items-center border-b">
+		<Layout.TableWrapper>
 			<div className="flex space-x-2">
-				<div className="prose bg-gray-200 h-12 w-12 flex items-center rounded">
+				<div
+					className={applyDarkModeBackground(
+						"prose bg-gray-200 h-12 w-12 flex items-center rounded",
+						isDarkMode
+					)}
+				>
 					<p className="text-center w-full">Bk</p>
 				</div>
 				<div>
 					<a
-						className="text-blue-600 font-mono text-sm"
+						className={applyDarkModeLink(
+							"text-blue-600 font-mono text-sm",
+							isDarkMode
+						)}
 						href={`/block/${number}`}
 					>
 						{height}
@@ -37,7 +54,9 @@ export const Block: FC<BlockProps> = ({
 
 			<div className="text-sm flex">
 				<p>
-					<span className="font-mono text-gray-500">
+					<span
+						className={applyDarkModeText("font-mono text-gray-500", isDarkMode)}
+					>
 						{extrinsics?.length ?? 0}
 					</span>{" "}
 					{extrinsics?.length === 1 ? "extrinsic" : "extrinsics"}
@@ -47,13 +66,27 @@ export const Block: FC<BlockProps> = ({
 			<div className="text-sm space-y-px">
 				<p className="flex">
 					Hash&nbsp;
-					<span className="font-mono text-gray-500 truncate">{hash}</span>
+					<span
+						className={applyDarkModeText(
+							"font-mono text-gray-500 truncate",
+							isDarkMode
+						)}
+					>
+						{hash}
+					</span>
 				</p>
 				<p className="flex">
 					Parent&nbsp;
-					<span className="font-mono text-gray-500 truncate">{parentHash}</span>
+					<span
+						className={applyDarkModeText(
+							"font-mono text-gray-500 truncate",
+							isDarkMode
+						)}
+					>
+						{parentHash}
+					</span>
 				</p>
 			</div>
-		</div>
+		</Layout.TableWrapper>
 	);
 };

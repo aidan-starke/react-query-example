@@ -12,16 +12,3 @@ export interface AcalaBlock {
 		}>;
 	};
 }
-
-export interface AcalaTransfer {
-	__typename?: "Transfer";
-	id: string;
-	fromId?: string | null;
-	toId?: string | null;
-	tokenId?: string | null;
-	amount?: string | null;
-	timestamp?: any | null;
-}
-
-export type AcalaBlocks = Array<AcalaBlock | null>;
-export type AcalaTransfers = Array<AcalaTransfer | null>;

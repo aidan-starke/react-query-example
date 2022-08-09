@@ -7,6 +7,9 @@ import {
 } from "@/libs/api/generated";
 import { usePolling } from "@/libs/hooks";
 import { Transfer } from "@/libs/components";
+import { useTheme } from "@/libs/hooks";
+import clsx from "clsx";
+import { applyDarkModeText } from "@/libs/utils";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const address = context?.params?.id;
@@ -31,12 +34,18 @@ const Address: NextPage<AddressProps> = ({ address, accountData }) => {
 	const {
 		transfers: [transfersOut, transfersIn],
 	} = useAccount(address, accountData);
+	const isDarkMode = useTheme((state) => state.theme === "Dark");
 
 	return (
 		<div className="h-screen p-8 m-auto space-y-4 max-h-[95vh]">
 			<div>
 				<h1 className="text-xl">
-					Address <span className="prose font-mono text-sm">{address}</span>
+					Address{" "}
+					<span
+						className={applyDarkModeText("prose font-mono text-sm", isDarkMode)}
+					>
+						{address}
+					</span>
 				</h1>
 			</div>
 			<div className="grid grid-cols-2 gap-4">

@@ -10,6 +10,8 @@ import { fetchData } from "@/libs/utils/prefetch";
 import { Layout } from "@/libs/components/Layout";
 import Decimal from "decimal.js";
 import { AcalaBlock } from "@/libs/types";
+import { useTheme } from "@/libs/hooks";
+import { applyDarkModeText } from "@/libs/utils";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { blocks } = (await fetchData(GetBlockByNumberDocument, {
@@ -38,13 +40,20 @@ interface BlockProps {
 }
 
 const Block: NextPage<BlockProps> = ({ block, extrinsics }) => {
+	const isDarkMode = useTheme((state) => state.theme === "Dark");
+
 	return (
 		<div className="h-screen p-8 m-auto space-y-4 max-h-[89vh]">
 			<div>
 				<h1 className="text-xl">Extrinsics</h1>
 				<p>
 					For block{" "}
-					<span className="font-mono text-sm text-gray-500">
+					<span
+						className={applyDarkModeText(
+							"font-mono text-sm text-gray-500",
+							isDarkMode
+						)}
+					>
 						{block?.number}
 					</span>
 				</p>

@@ -1,7 +1,14 @@
 import { FC, useMemo } from "react";
-
 import { utils as ethers } from "ethers";
-import { getDistance } from "@/libs/utils";
+import {
+	applyDarkModeBackground,
+	applyDarkModeBorder,
+	applyDarkModeLink,
+	applyDarkModeText,
+	getDistance,
+} from "@/libs/utils";
+import { useTheme } from "@/libs/hooks";
+import { Layout } from "@/libs/components";
 
 interface TransferProps {
 	timestamp?: string | null;
@@ -26,11 +33,17 @@ export const Transfer: FC<TransferProps> = ({
 
 		return 0;
 	}, [amount, token]);
+	const isDarkMode = useTheme((state) => state.theme === "Dark");
 
 	return (
-		<div className="p-4 grid grid-cols-3 items-center border-b">
+		<Layout.TableWrapper>
 			<div className="flex space-x-2">
-				<div className="prose bg-gray-200 h-12 w-12 flex items-center rounded-3xl">
+				<div
+					className={applyDarkModeBackground(
+						"prose bg-gray-200 h-12 w-12 flex items-center rounded-3xl",
+						isDarkMode
+					)}
+				>
 					<p className="text-center w-full">Tf</p>
 				</div>
 				<div className="flex items-center">
@@ -43,7 +56,10 @@ export const Transfer: FC<TransferProps> = ({
 					From&nbsp;
 					<a
 						href={`/address/${from}`}
-						className="text-blue-600 font-mono text-xs"
+						className={applyDarkModeLink(
+							"text-blue-600 font-mono text-sm",
+							isDarkMode
+						)}
 					>
 						{from}
 					</a>
@@ -52,7 +68,10 @@ export const Transfer: FC<TransferProps> = ({
 					To&nbsp;
 					<a
 						href={`/address/${to}`}
-						className="text-blue-600 font-mono text-xs"
+						className={applyDarkModeLink(
+							"text-blue-600 font-mono text-sm",
+							isDarkMode
+						)}
 					>
 						{to}
 					</a>
@@ -61,10 +80,14 @@ export const Transfer: FC<TransferProps> = ({
 
 			<div className="text-sm">
 				<p className="text-right">
-					<span className="font-mono text-gray-500">{value}</span>{" "}
+					<span
+						className={applyDarkModeText("font-mono text-gray-500", isDarkMode)}
+					>
+						{value}
+					</span>{" "}
 					{token?.replace(/[^A-Z]/g, "")}
 				</p>
 			</div>
-		</div>
+		</Layout.TableWrapper>
 	);
 };
