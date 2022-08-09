@@ -6,6 +6,7 @@ import { queryClient } from "@/libs/client";
 import { useTheme } from "@/libs/hooks";
 import clsx from "clsx";
 import { ThemeSwitch } from "@/libs/components";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const isDarkMode = useTheme((state) => state.theme === "Dark");
@@ -31,6 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 						</a>
 					</h1>
 					<ThemeSwitch />
+					<Head>
+						<title>Acala Explorer</title>
+					</Head>
 					<Component {...pageProps} />
 				</div>
 			</Hydrate>
