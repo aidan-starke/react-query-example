@@ -9,9 +9,7 @@ interface ThemeState {
 
 type ThemeStore = StateCreator<
 	ThemeState,
-	[["zustand/devtools", never], ["zustand/persist", unknown]],
-	[],
-	ThemeState
+	[["zustand/devtools", never], ["zustand/persist", unknown]]
 >;
 
 const themeStore: ThemeStore = (set) => ({
