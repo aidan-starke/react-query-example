@@ -53,7 +53,7 @@ export const Block: FC<BlockProps> = ({
 					<span
 						className={clsx(
 							"font-mono text-gray-500",
-							isDarkMode && "text-gray-300"
+							isDarkMode && "!text-gray-300"
 						)}
 					>
 						{extrinsics?.length ?? 0}
@@ -68,7 +68,7 @@ export const Block: FC<BlockProps> = ({
 					<span
 						className={clsx(
 							"font-mono text-gray-500 truncate",
-							isDarkMode && "text-gray-300"
+							isDarkMode && "!text-gray-300"
 						)}
 					>
 						{hash}
@@ -79,7 +79,7 @@ export const Block: FC<BlockProps> = ({
 					<span
 						className={clsx(
 							"font-mono text-gray-500 truncate",
-							isDarkMode && "text-gray-300"
+							isDarkMode && "!text-gray-300"
 						)}
 					>
 						{parentHash}
