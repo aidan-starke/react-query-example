@@ -32,7 +32,16 @@ export const ExtrinsicSimple: FC<ExtrinsicSimpleProps> = ({
 				>
 					<p className="text-center w-full">Tf</p>
 				</div>
-				<div className="flex items-center">
+				<div>
+					<a
+						className={clsx(
+							"text-blue-600 font-mono text-sm",
+							isDarkMode && "text-blue-200"
+						)}
+						href={`/extrinsic/${id}`}
+					>
+						{id}
+					</a>
 					<p className="text-sm">{getDistance(timestamp as string)}</p>
 				</div>
 			</div>
