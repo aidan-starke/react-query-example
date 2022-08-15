@@ -2512,7 +2512,10 @@ export type GetExtrinsicByIdQuery = {
 	__typename?: "query_root";
 	app_extrinsics_by_pk?: {
 		__typename?: "app_extrinsics";
+		id: string;
 		hash: string;
+		signer?: string | null;
+		created_at: any;
 		call_section: string;
 		call_method: string;
 		call_args?: any | null;
@@ -2637,7 +2640,10 @@ export const useGetBlocksQuery = <TData = GetBlocksQuery, TError = unknown>(
 export const GetExtrinsicByIdDocument = `
     query GetExtrinsicById($id: String!) {
   app_extrinsics_by_pk(id: $id) {
+    id
     hash
+    signer
+    created_at
     call_section
     call_method
     call_args

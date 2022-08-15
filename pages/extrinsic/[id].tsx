@@ -8,6 +8,8 @@ import { useTheme } from "@/libs/hooks";
 import clsx from "clsx";
 import { Layout } from "@/libs/components";
 import JSONPretty from "react-json-pretty";
+import { getDistance } from "@/libs/utils";
+import { Extrinsic as ExtrinsicRow } from "@/libs/components";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const id = context?.params?.id as string;
@@ -28,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 interface ExtrinsicProps {
 	id: string;
-	extrinsic: GetExtrinsicByIdQuery;
+	extrinsic: GetExtrinsicByIdQuery["app_extrinsics_by_pk"];
 }
 
 const Extrinsic: NextPage<ExtrinsicProps> = ({ id, extrinsic }) => {
@@ -53,10 +55,26 @@ const Extrinsic: NextPage<ExtrinsicProps> = ({ id, extrinsic }) => {
 				<Layout.TableRow rowClassName="text-lg grid-cols-4">
 					<p>Tx Hash</p>
 					<p>Method</p>
-					<p>Events</p>
+					<p>Signer</p>
 					<p>Age</p>
 				</Layout.TableRow>
-				<JSONPretty data={extrinsic} />
+				<Layout.TableRow rowClassName="space-y-px grid-cols-4">
+					<ExtrinsicRow extrinsic={extrinsic} />
+				</Layout.TableRow>
+
+				<h1 className="text-xl pb-2 w-1/2 m-auto mt-6">Events</h1>
+				<div className="w-1/2 m-auto border rounded">
+					<Layout.TableRow rowClassName="text-lg grid-cols-2">
+						<p>Section</p>
+						<p>Method</p>
+					</Layout.TableRow>
+					{extrinsic?.events?.map((event) => (
+						<Layout.TableRow rowClassName="space-y-px grid-cols-2">
+							<p>{event.emit_section}</p>
+							<p>{event.emit_method}</p>
+						</Layout.TableRow>
+					))}
+				</div>
 			</div>
 		</div>
 	);

@@ -1,6 +1,9 @@
 query GetExtrinsicById($id: String!) {
 	app_extrinsics_by_pk(id: $id) {
+		id
 		hash
+		signer
+		created_at
 		call_section
 		call_method
 		call_args

@@ -4,9 +4,10 @@ import JSONPretty from "react-json-pretty";
 import clsx from "clsx";
 import { useTheme } from "@/libs/hooks";
 import { Extrinsic as ExtrinsicInterface } from "@/libs/types";
+import { GetExtrinsicByIdQuery } from "@/libs/api/generated";
 
 interface ExtrinsicProps {
-	extrinsic: ExtrinsicInterface;
+	extrinsic: ExtrinsicInterface | GetExtrinsicByIdQuery["app_extrinsics_by_pk"];
 	eventsCount?: number;
 }
 
