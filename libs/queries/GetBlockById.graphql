@@ -1,13 +1,14 @@
 query GetBlockById($id: String!) {
-	block(id: $id) {
-		id
-		number
-		extrinsics(orderBy: TIMESTAMP_DESC) {
-			edges {
-				node {
-					id
-				}
-			}
+	app_blocks_by_pk(id: $id) {
+		hash
+		extrinsics(where: { is_signed: { _eq: true } }) {
+			id
+			created_at
+			hash
+			signer
+			call_section
+			call_method
+			call_args
 		}
 	}
 }

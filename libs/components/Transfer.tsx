@@ -1,8 +1,6 @@
 import { FC, useMemo } from "react";
 import { utils as ethers } from "ethers";
-import {
-	getDistance,
-} from "@/libs/utils";
+import { getDistance } from "@/libs/utils";
 import { useTheme } from "@/libs/hooks";
 import { Layout } from "@/libs/components";
 import clsx from "clsx";

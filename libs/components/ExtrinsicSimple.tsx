@@ -4,22 +4,20 @@ import { useTheme } from "@/libs/hooks";
 import { Layout } from "@/libs/components";
 import clsx from "clsx";
 
-interface BlockProps {
+interface ExtrinsicSimpleProps {
+	id?: string;
 	hash?: string;
-	height?: string;
+	signer?: string | null;
 	timestamp?: string;
-	parentHash?: string;
-	extrinsicsCount?: number;
-	number?: string;
+	eventsCount?: number;
 }
 
-export const Block: FC<BlockProps> = ({
+export const ExtrinsicSimple: FC<ExtrinsicSimpleProps> = ({
+	id,
 	hash,
-	height,
+	signer,
 	timestamp,
-	parentHash,
-	extrinsicsCount,
-	number,
+	eventsCount,
 }) => {
 	const isDarkMode = useTheme((state) => state.theme === "Dark");
 
@@ -28,11 +26,11 @@ export const Block: FC<BlockProps> = ({
 			<div className="flex space-x-2">
 				<div
 					className={clsx(
-						"prose bg-gray-200 h-12 w-12 flex items-center rounded",
+						"prose bg-gray-200 h-12 w-12 flex items-center rounded-3xl",
 						isDarkMode && "bg-gray-300"
 					)}
 				>
-					<p className="text-center w-full">Bk</p>
+					<p className="text-center w-full">Tf</p>
 				</div>
 				<div>
 					<a
@@ -40,9 +38,9 @@ export const Block: FC<BlockProps> = ({
 							"text-blue-600 font-mono text-sm",
 							isDarkMode && "text-blue-200"
 						)}
-						href={`/block/${height}`}
+						href={`/extrinsic/${id}`}
 					>
-						{height}
+						{id}
 					</a>
 					<p className="text-sm">{getDistance(timestamp as string)}</p>
 				</div>
@@ -56,13 +54,25 @@ export const Block: FC<BlockProps> = ({
 							isDarkMode && "!text-gray-300"
 						)}
 					>
-						{extrinsicsCount ?? 0}
+						{eventsCount ?? 0}
 					</span>{" "}
-					{extrinsicsCount === 1 ? "extrinsic" : "extrinsics"}
+					{eventsCount === 1 ? "event" : "events"}
 				</p>
 			</div>
 
 			<div className="text-sm space-y-px">
+				<p className="truncate">
+					Signer&nbsp;
+					<a
+						href={`/address/${signer}`}
+						className={clsx(
+							"text-blue-600 font-mono text-sm",
+							isDarkMode && "text-blue-200"
+						)}
+					>
+						{signer}
+					</a>
+				</p>
 				<p className="flex">
 					Hash&nbsp;
 					<span
@@ -72,17 +82,6 @@ export const Block: FC<BlockProps> = ({
 						)}
 					>
 						{hash}
-					</span>
-				</p>
-				<p className="flex">
-					Parent&nbsp;
-					<span
-						className={clsx(
-							"font-mono text-gray-500 truncate",
-							isDarkMode && "!text-gray-300"
-						)}
-					>
-						{parentHash}
 					</span>
 				</p>
 			</div>

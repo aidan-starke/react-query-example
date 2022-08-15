@@ -3,3 +3,4 @@ export * from "./Transfer";
 export * from "./Extrinsic";
 export * from "./Layout";
 export * from "./ThemeSwitch";
+export * from "./ExtrinsicSimple";

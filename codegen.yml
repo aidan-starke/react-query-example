@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://api.subquery.network/sq/AcalaNetwork/acala"
+schema: ./libs/schema.graphql
 documents: ./libs/queries/*.graphql
 generates:
   ./libs/api/generated.ts:

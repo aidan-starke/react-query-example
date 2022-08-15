@@ -1,42 +1,45 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { fetchData } from "@/libs/utils/prefetch";
 import {
-	GetAccountByIdDocument,
-	GetAccountByIdQuery,
-	useGetAccountByIdQuery,
+	GetExtrinsicsByAccountDocument,
+	GetExtrinsicsByAccountQuery,
+	useGetExtrinsicsByAccountQuery,
 } from "@/libs/api/generated";
 import { usePolling } from "@/libs/hooks";
-import { Transfer } from "@/libs/components";
 import { useTheme } from "@/libs/hooks";
 import clsx from "clsx";
+import { Extrinsic, Layout } from "@/libs/components";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const address = context?.params?.id;
-	const accountData = (await fetchData(GetAccountByIdDocument, {
-		id: address,
-	})) as GetAccountByIdQuery;
+	const initialExtrinsics = (await fetchData(GetExtrinsicsByAccountDocument, {
+		account: address,
+	})) as GetExtrinsicsByAccountQuery;
 
 	return {
 		props: {
 			address,
-			accountData,
+			initialExtrinsics,
 		},
 	};
 };
 
 interface AddressProps {
 	address: string;
-	accountData: GetAccountByIdQuery;
+	initialExtrinsics: GetExtrinsicsByAccountQuery;
 }
 
-const Address: NextPage<AddressProps> = ({ address, accountData }) => {
-	const {
-		transfers: [transfersOut, transfersIn],
-	} = useAccount(address, accountData);
+const Address: NextPage<AddressProps> = ({ address, initialExtrinsics }) => {
+	const { app_extrinsics: extrinsics } =
+		usePolling<GetExtrinsicsByAccountQuery>(
+			initialExtrinsics,
+			useGetExtrinsicsByAccountQuery,
+			{ account: address }
+		);
 	const isDarkMode = useTheme((state) => state.theme === "Dark");
 
 	return (
-		<div className="h-screen p-8 m-auto space-y-4 max-h-[95vh]">
+		<div className="h-screen p-8 m-auto space-y-4 max-h-[90vh]">
 			<div>
 				<h1 className="text-xl">
 					Address{" "}
@@ -50,63 +53,27 @@ const Address: NextPage<AddressProps> = ({ address, accountData }) => {
 					</span>
 				</h1>
 			</div>
-			<div className="grid grid-cols-2 gap-4">
-				<div>
-					<div
-						className="border-2 rounded h-full p-2 overflow-y-auto max-h-[85vh]"
-						suppressHydrationWarning
+			<div className="border-2 rounded h-full p-2 overflow-y-auto">
+				<Layout.TableRow rowClassName="text-lg grid-cols-4">
+					<p>Tx Hash</p>
+					<p>Method</p>
+					<p>Events</p>
+					<p>Age</p>
+				</Layout.TableRow>
+				{extrinsics?.map((extrinsic) => (
+					<Layout.TableRow
+						rowClassName="space-y-px grid-cols-4"
+						key={extrinsic?.hash}
 					>
-						<h1 className="text-xl font-mono p-2">Transfers In</h1>
-						{transfersIn?.map((transfer) => (
-							<Transfer
-								key={transfer?.id}
-								timestamp={transfer?.timestamp}
-								from={transfer?.fromId}
-								to={transfer?.toId}
-								amount={transfer?.amount}
-								token={transfer?.tokenId}
-							/>
-						))}
-					</div>
-				</div>
-				<div>
-					<div
-						className="border-2 rounded h-full p-2 overflow-y-auto max-h-[85vh]"
-						suppressHydrationWarning
-					>
-						<h1 className="text-xl font-mono p-2">Transfers Out</h1>
-						{transfersOut?.map((transfer) => (
-							<Transfer
-								key={transfer?.id}
-								timestamp={transfer?.timestamp}
-								from={transfer?.fromId}
-								to={transfer?.toId}
-								amount={transfer?.amount}
-								token={transfer?.tokenId}
-							/>
-						))}
-					</div>
-				</div>
+						<Extrinsic
+							extrinsic={extrinsic}
+							eventsCount={extrinsic?.events_aggregate?.aggregate?.count}
+						/>
+					</Layout.TableRow>
+				))}
 			</div>
 		</div>
 	);
 };
 
 export default Address;
-
-const useAccount = (address: string, initialData: GetAccountByIdQuery) => {
-	const data = usePolling<GetAccountByIdQuery>(
-		initialData,
-		useGetAccountByIdQuery,
-		{ id: address }
-	);
-
-	const account = data?.account;
-	const transfersOut = account?.transferOut?.nodes;
-	const transfersIn = account?.transferIn?.nodes;
-
-	return {
-		account,
-		transfers: [transfersOut, transfersIn],
-	};
-};
