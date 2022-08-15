@@ -59,7 +59,7 @@ const Home: NextPage<HomeProps> = () => {
 				className="border-2 rounded h-full overflow-y-auto p-2"
 				suppressHydrationWarning
 			>
-				<h1 className="text-xl font-mono p-4">Latest Transfers</h1>
+				<h1 className="text-xl font-mono p-4">Latest Extrinsics</h1>
 				{extrinsics?.map((extrinsic) => (
 					<ExtrinsicSimple
 						key={extrinsic?.id}
