@@ -68,8 +68,8 @@ const Extrinsic: NextPage<ExtrinsicProps> = ({ id, extrinsic }) => {
 						<p>Section</p>
 						<p>Method</p>
 					</Layout.TableRow>
-					{extrinsic?.events?.map((event) => (
-						<Layout.TableRow rowClassName="space-y-px grid-cols-2">
+					{extrinsic?.events?.map((event, i) => (
+						<Layout.TableRow rowClassName="space-y-px grid-cols-2" key={i}>
 							<p>{event.emit_section}</p>
 							<p>{event.emit_method}</p>
 						</Layout.TableRow>
