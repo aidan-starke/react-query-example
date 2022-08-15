@@ -3,20 +3,20 @@ import type { GetServerSideProps, NextPage } from "next";
 import {
 	GetBlocksDocument,
 	GetBlocksQuery,
-	GetTransfersQuery,
 	useGetBlocksQuery,
-	useGetTransfersQuery,
-	GetTransfersDocument,
+	GetExtrinsicsDocument,
+	GetExtrinsicsQuery,
+	useGetExtrinsicsQuery,
 } from "@/libs/api/generated";
 import { usePolling } from "@/libs/hooks";
-import { Block, Transfer } from "@/libs/components";
+import { Block, ExtrinsicSimple } from "@/libs/components";
 import { queryClient } from "@/libs/client";
 import { dehydrate } from "@tanstack/react-query";
 import { prefetch } from "@/libs/utils/prefetch";
 
 export const getServerSideProps: GetServerSideProps = async () => {
 	await prefetch("GetBlocks", GetBlocksDocument);
-	await prefetch("GetTransfers", GetTransfersDocument);
+	await prefetch("GetExtrinsics", GetExtrinsicsDocument);
 
 	return {
 		props: {
@@ -28,8 +28,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
 interface HomeProps {}
 
 const Home: NextPage<HomeProps> = () => {
-	const { blocks } = usePolling<GetBlocksQuery>({}, useGetBlocksQuery);
-	const { transfers } = usePolling<GetTransfersQuery>({}, useGetTransfersQuery);
+	const { app_blocks: blocks } = usePolling<GetBlocksQuery>(
+		{} as GetBlocksQuery,
+		useGetBlocksQuery
+	);
+	const { app_extrinsics: extrinsics } = usePolling<GetExtrinsicsQuery>(
+		{} as GetExtrinsicsQuery,
+		useGetExtrinsicsQuery
+	);
 
 	return (
 		<div className="h-screen p-8 m-auto grid grid-cols-2 gap-4 max-h-[95vh]">
@@ -38,17 +44,14 @@ const Home: NextPage<HomeProps> = () => {
 				suppressHydrationWarning
 			>
 				<h1 className="text-xl font-mono p-4">Latest Blocks</h1>
-				{blocks?.nodes.map((block) => (
+				{blocks?.map((block) => (
 					<Block
 						key={block?.id}
-						hash={block?.id}
-						height={block?.number}
-						timestamp={block?.timestamp}
-						parentHash={block?.parentHash}
-						number={block?.number}
-						extrinsics={block?.extrinsics?.edges
-							?.map(({ node }) => node?.id)
-							.filter((e) => e?.length)}
+						hash={block?.hash}
+						timestamp={block?.created_at}
+						parentHash={block?.parent_hash}
+						height={block?.id}
+						extrinsicsCount={block?.extrinsics_aggregate?.aggregate?.count}
 					/>
 				))}
 			</div>
@@ -57,14 +60,14 @@ const Home: NextPage<HomeProps> = () => {
 				suppressHydrationWarning
 			>
 				<h1 className="text-xl font-mono p-4">Latest Transfers</h1>
-				{transfers?.nodes.map((transfer) => (
-					<Transfer
-						key={transfer?.id}
-						timestamp={transfer?.timestamp}
-						from={transfer?.fromId}
-						to={transfer?.toId}
-						amount={transfer?.amount}
-						token={transfer?.tokenId}
+				{extrinsics?.map((extrinsic) => (
+					<ExtrinsicSimple
+						key={extrinsic?.id}
+						id={extrinsic?.id}
+						hash={extrinsic?.hash}
+						signer={extrinsic?.signer}
+						timestamp={extrinsic?.created_at}
+						eventsCount={extrinsic?.events_aggregate?.aggregate?.count}
 					/>
 				))}
 			</div>
