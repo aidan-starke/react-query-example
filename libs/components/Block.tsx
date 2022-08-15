@@ -40,7 +40,7 @@ export const Block: FC<BlockProps> = ({
 							"text-blue-600 font-mono text-sm",
 							isDarkMode && "text-blue-200"
 						)}
-						href={`/block/${number}`}
+						href={`/block/${height}`}
 					>
 						{height}
 					</a>

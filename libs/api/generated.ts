@@ -2462,6 +2462,27 @@ export type Timestamptz_Comparison_Exp = {
 	_nin?: InputMaybe<Array<Scalars["timestamptz"]>>;
 };
 
+export type GetBlockByIdQueryVariables = Exact<{
+	id: Scalars["String"];
+}>;
+
+export type GetBlockByIdQuery = {
+	__typename?: "query_root";
+	app_blocks_by_pk?: {
+		__typename?: "app_blocks";
+		hash: string;
+		extrinsics: Array<{
+			__typename?: "app_extrinsics";
+			created_at: any;
+			hash: string;
+			signer?: string | null;
+			call_section: string;
+			call_method: string;
+			call_args?: any | null;
+		}>;
+	} | null;
+};
+
 export type GetBlocksQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetBlocksQuery = {
@@ -2502,6 +2523,40 @@ export type GetExtrinsicsQuery = {
 	}>;
 };
 
+export const GetBlockByIdDocument = `
+    query GetBlockById($id: String!) {
+  app_blocks_by_pk(id: $id) {
+    hash
+    extrinsics(where: {is_signed: {_eq: true}}) {
+      created_at
+      hash
+      signer
+      call_section
+      call_method
+      call_args
+    }
+  }
+}
+    `;
+export const useGetBlockByIdQuery = <
+	TData = GetBlockByIdQuery,
+	TError = unknown
+>(
+	client: GraphQLClient,
+	variables: GetBlockByIdQueryVariables,
+	options?: UseQueryOptions<GetBlockByIdQuery, TError, TData>,
+	headers?: RequestInit["headers"]
+) =>
+	useQuery<GetBlockByIdQuery, TError, TData>(
+		["GetBlockById", variables],
+		fetcher<GetBlockByIdQuery, GetBlockByIdQueryVariables>(
+			client,
+			GetBlockByIdDocument,
+			variables,
+			headers
+		),
+		options
+	);
 export const GetBlocksDocument = `
     query GetBlocks {
   app_blocks(limit: 20, order_by: {created_at: desc}) {

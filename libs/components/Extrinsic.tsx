@@ -1,12 +1,12 @@
-import { GetExtrinsicByIdQuery } from "@/libs/api/generated";
 import { getDistance } from "@/libs/utils";
 import { FC, useState } from "react";
 import JSONPretty from "react-json-pretty";
 import clsx from "clsx";
 import { useTheme } from "@/libs/hooks";
+import { Extrinsic as ExtrinsicInterface } from "@/libs/types";
 
 interface ExtrinsicProps {
-	extrinsic: GetExtrinsicByIdQuery["extrinsic"];
+	extrinsic: ExtrinsicInterface;
 }
 
 export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic }) => {
@@ -21,7 +21,7 @@ export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic }) => {
 					isDarkMode && "text-gray-300"
 				)}
 			>
-				{extrinsic?.id}
+				{extrinsic?.hash}
 			</p>
 			<div className="flex items-center">
 				<p
@@ -30,13 +30,13 @@ export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic }) => {
 						isDarkMode && "text-gray-300"
 					)}
 				>
-					{extrinsic?.section}.{extrinsic?.method}
+					{extrinsic?.call_section}.{extrinsic?.call_method}
 				</p>
 				<button
 					className={clsx(
 						"font-mono text-xs border p-2 shadow rounded text-gray-600 duration-300",
 						viewArgs && "bg-gray-200",
-						!viewArgs && isDarkMode && "text-gray-100"
+						!viewArgs && isDarkMode && "!text-gray-100"
 					)}
 					onClick={() => setViewArgs(!viewArgs)}
 				>
@@ -44,22 +44,22 @@ export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic }) => {
 				</button>
 			</div>
 			<a
-				href={`/address/${extrinsic?.signerId}`}
+				href={`/address/${extrinsic?.signer}`}
 				className={clsx(
 					"text-sm font-mono prose truncate text-blue-600",
 					isDarkMode && "text-blue-200"
 				)}
 			>
-				{extrinsic?.signerId}
+				{extrinsic?.signer}
 			</a>
-			<p>{getDistance(extrinsic?.timestamp as string)}</p>
+			<p>{getDistance(extrinsic?.created_at as string)}</p>
 			{viewArgs && (
 				<div className="border p-2 max-w-fit min-w-fit shadow rounded">
 					<JSONPretty
-						data={extrinsic?.args}
+						data={extrinsic?.call_args}
 						className={clsx(
 							"text-xs text-gray-600",
-							isDarkMode && "text-gray-100"
+							isDarkMode && "!text-gray-100"
 						)}
 					/>
 				</div>
