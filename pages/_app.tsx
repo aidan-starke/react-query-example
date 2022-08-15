@@ -28,12 +28,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 								isDarkMode && "border-blue-200"
 							)}
 						>
-							Pokadot Explorer
+							Polkadot Explorer
 						</a>
 					</h1>
 					<ThemeSwitch />
 					<Head>
-						<title>Pokadot Explorer</title>
+						<title>Polkadot Explorer</title>
 					</Head>
 					<Component {...pageProps} />
 				</div>
