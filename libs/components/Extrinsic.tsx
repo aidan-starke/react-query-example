@@ -7,22 +7,24 @@ import { Extrinsic as ExtrinsicInterface } from "@/libs/types";
 
 interface ExtrinsicProps {
 	extrinsic: ExtrinsicInterface;
+	eventsCount?: number;
 }
 
-export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic }) => {
+export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic, eventsCount }) => {
 	const [viewArgs, setViewArgs] = useState<boolean>(false);
 	const isDarkMode = useTheme((state) => state.theme === "Dark");
 
 	return (
 		<>
-			<p
+			<a
+				href={`/extrinsic/${extrinsic?.id}`}
 				className={clsx(
-					"truncate text-sm font-mono prose",
-					isDarkMode && "text-gray-300"
+					"truncate text-sm font-mono prose text-blue-600",
+					isDarkMode && "text-blue-200"
 				)}
 			>
 				{extrinsic?.hash}
-			</p>
+			</a>
 			<div className="flex items-center">
 				<p
 					className={clsx(
@@ -43,15 +45,31 @@ export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic }) => {
 					{viewArgs ? "Hide" : "View"} Args
 				</button>
 			</div>
-			<a
-				href={`/address/${extrinsic?.signer}`}
-				className={clsx(
-					"text-sm font-mono prose truncate text-blue-600",
-					isDarkMode && "text-blue-200"
-				)}
-			>
-				{extrinsic?.signer}
-			</a>
+			{eventsCount ? (
+				<div className="text-sm flex">
+					<p>
+						<span
+							className={clsx(
+								"font-mono text-gray-500",
+								isDarkMode && "!text-gray-300"
+							)}
+						>
+							{eventsCount ?? 0}
+						</span>{" "}
+						{eventsCount === 1 ? "event" : "events"}
+					</p>
+				</div>
+			) : (
+				<a
+					href={`/address/${extrinsic?.signer}`}
+					className={clsx(
+						"text-sm font-mono prose truncate text-blue-600",
+						isDarkMode && "text-blue-200"
+					)}
+				>
+					{extrinsic?.signer}
+				</a>
+			)}
 			<p>{getDistance(extrinsic?.created_at as string)}</p>
 			{viewArgs && (
 				<div className="border p-2 max-w-fit min-w-fit shadow rounded">

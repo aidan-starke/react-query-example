@@ -1,0 +1,15 @@
+query GetExtrinsicsByAccount($account: String!) {
+	app_extrinsics(where: { signer: { _eq: $account } }) {
+		id
+		hash
+		created_at
+		call_section
+		call_method
+		call_args
+		events_aggregate {
+			aggregate {
+				count
+			}
+		}
+	}
+}

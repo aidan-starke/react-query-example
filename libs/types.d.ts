@@ -1,5 +1,6 @@
 export interface Extrinsic {
 	__typename?: "app_extrinsics";
+	id: string;
 	created_at: any;
 	hash: string;
 	signer?: string | null;

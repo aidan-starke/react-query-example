@@ -2473,6 +2473,7 @@ export type GetBlockByIdQuery = {
 		hash: string;
 		extrinsics: Array<{
 			__typename?: "app_extrinsics";
+			id: string;
 			created_at: any;
 			hash: string;
 			signer?: string | null;
@@ -2503,6 +2504,26 @@ export type GetBlocksQuery = {
 	}>;
 };
 
+export type GetExtrinsicByIdQueryVariables = Exact<{
+	id: Scalars["String"];
+}>;
+
+export type GetExtrinsicByIdQuery = {
+	__typename?: "query_root";
+	app_extrinsics_by_pk?: {
+		__typename?: "app_extrinsics";
+		hash: string;
+		call_section: string;
+		call_method: string;
+		call_args?: any | null;
+		events: Array<{
+			__typename?: "app_events";
+			emit_section: string;
+			emit_method: string;
+		}>;
+	} | null;
+};
+
 export type GetExtrinsicsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetExtrinsicsQuery = {
@@ -2523,11 +2544,36 @@ export type GetExtrinsicsQuery = {
 	}>;
 };
 
+export type GetExtrinsicsByAccountQueryVariables = Exact<{
+	account: Scalars["String"];
+}>;
+
+export type GetExtrinsicsByAccountQuery = {
+	__typename?: "query_root";
+	app_extrinsics: Array<{
+		__typename?: "app_extrinsics";
+		id: string;
+		hash: string;
+		created_at: any;
+		call_section: string;
+		call_method: string;
+		call_args?: any | null;
+		events_aggregate: {
+			__typename?: "app_events_aggregate";
+			aggregate?: {
+				__typename?: "app_events_aggregate_fields";
+				count: number;
+			} | null;
+		};
+	}>;
+};
+
 export const GetBlockByIdDocument = `
     query GetBlockById($id: String!) {
   app_blocks_by_pk(id: $id) {
     hash
     extrinsics(where: {is_signed: {_eq: true}}) {
+      id
       created_at
       hash
       signer
@@ -2588,6 +2634,39 @@ export const useGetBlocksQuery = <TData = GetBlocksQuery, TError = unknown>(
 		),
 		options
 	);
+export const GetExtrinsicByIdDocument = `
+    query GetExtrinsicById($id: String!) {
+  app_extrinsics_by_pk(id: $id) {
+    hash
+    call_section
+    call_method
+    call_args
+    events {
+      emit_section
+      emit_method
+    }
+  }
+}
+    `;
+export const useGetExtrinsicByIdQuery = <
+	TData = GetExtrinsicByIdQuery,
+	TError = unknown
+>(
+	client: GraphQLClient,
+	variables: GetExtrinsicByIdQueryVariables,
+	options?: UseQueryOptions<GetExtrinsicByIdQuery, TError, TData>,
+	headers?: RequestInit["headers"]
+) =>
+	useQuery<GetExtrinsicByIdQuery, TError, TData>(
+		["GetExtrinsicById", variables],
+		fetcher<GetExtrinsicByIdQuery, GetExtrinsicByIdQueryVariables>(
+			client,
+			GetExtrinsicByIdDocument,
+			variables,
+			headers
+		),
+		options
+	);
 export const GetExtrinsicsDocument = `
     query GetExtrinsics {
   app_extrinsics(
@@ -2621,6 +2700,42 @@ export const useGetExtrinsicsQuery = <
 		fetcher<GetExtrinsicsQuery, GetExtrinsicsQueryVariables>(
 			client,
 			GetExtrinsicsDocument,
+			variables,
+			headers
+		),
+		options
+	);
+export const GetExtrinsicsByAccountDocument = `
+    query GetExtrinsicsByAccount($account: String!) {
+  app_extrinsics(where: {signer: {_eq: $account}}) {
+    id
+    hash
+    created_at
+    call_section
+    call_method
+    call_args
+    events_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+}
+    `;
+export const useGetExtrinsicsByAccountQuery = <
+	TData = GetExtrinsicsByAccountQuery,
+	TError = unknown
+>(
+	client: GraphQLClient,
+	variables: GetExtrinsicsByAccountQueryVariables,
+	options?: UseQueryOptions<GetExtrinsicsByAccountQuery, TError, TData>,
+	headers?: RequestInit["headers"]
+) =>
+	useQuery<GetExtrinsicsByAccountQuery, TError, TData>(
+		["GetExtrinsicsByAccount", variables],
+		fetcher<GetExtrinsicsByAccountQuery, GetExtrinsicsByAccountQueryVariables>(
+			client,
+			GetExtrinsicsByAccountDocument,
 			variables,
 			headers
 		),
