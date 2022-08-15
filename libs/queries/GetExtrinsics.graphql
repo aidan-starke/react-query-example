@@ -1,0 +1,17 @@
+query GetExtrinsics {
+	app_extrinsics(
+		limit: 20
+		order_by: { created_at: desc }
+		where: { is_signed: { _eq: true } }
+	) {
+		id
+		hash
+		signer
+		created_at
+		events_aggregate {
+			aggregate {
+				count
+			}
+		}
+	}
+}

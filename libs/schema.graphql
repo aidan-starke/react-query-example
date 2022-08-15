@@ -1,0 +1,3966 @@
+schema {
+	query: query_root
+	mutation: mutation_root
+	subscription: subscription_root
+}
+
+"""
+whether this query should be cached (Hasura Cloud only)
+"""
+directive @cached(
+	"""
+	measured in seconds
+	"""
+	ttl: Int! = 60
+
+	"""
+	refresh the cache entry
+	"""
+	refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input Boolean_comparison_exp {
+	_eq: Boolean
+	_gt: Boolean
+	_gte: Boolean
+	_in: [Boolean!]
+	_is_null: Boolean
+	_lt: Boolean
+	_lte: Boolean
+	_neq: Boolean
+	_nin: [Boolean!]
+}
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+	_eq: Int
+	_gt: Int
+	_gte: Int
+	_in: [Int!]
+	_is_null: Boolean
+	_lt: Int
+	_lte: Int
+	_neq: Int
+	_nin: [Int!]
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+	_eq: String
+	_gt: String
+	_gte: String
+
+	"""
+	does the column match the given case-insensitive pattern
+	"""
+	_ilike: String
+	_in: [String!]
+
+	"""
+	does the column match the given POSIX regular expression, case insensitive
+	"""
+	_iregex: String
+	_is_null: Boolean
+
+	"""
+	does the column match the given pattern
+	"""
+	_like: String
+	_lt: String
+	_lte: String
+	_neq: String
+
+	"""
+	does the column NOT match the given case-insensitive pattern
+	"""
+	_nilike: String
+	_nin: [String!]
+
+	"""
+	does the column NOT match the given POSIX regular expression, case insensitive
+	"""
+	_niregex: String
+
+	"""
+	does the column NOT match the given pattern
+	"""
+	_nlike: String
+
+	"""
+	does the column NOT match the given POSIX regular expression, case sensitive
+	"""
+	_nregex: String
+
+	"""
+	does the column NOT match the given SQL regular expression
+	"""
+	_nsimilar: String
+
+	"""
+	does the column match the given POSIX regular expression, case sensitive
+	"""
+	_regex: String
+
+	"""
+	does the column match the given SQL regular expression
+	"""
+	_similar: String
+}
+
+"""
+columns and relationships of "app._metadata"
+"""
+type app__metadata {
+	createdAt: timestamptz!
+	key: String!
+	updatedAt: timestamptz!
+	value(
+		"""
+		JSON select path
+		"""
+		path: String
+	): jsonb
+}
+
+"""
+aggregated selection of "app._metadata"
+"""
+type app__metadata_aggregate {
+	aggregate: app__metadata_aggregate_fields
+	nodes: [app__metadata!]!
+}
+
+"""
+aggregate fields of "app._metadata"
+"""
+type app__metadata_aggregate_fields {
+	count(columns: [app__metadata_select_column!], distinct: Boolean): Int!
+	max: app__metadata_max_fields
+	min: app__metadata_min_fields
+}
+
+"""
+append existing jsonb value of filtered columns with new jsonb value
+"""
+input app__metadata_append_input {
+	value: jsonb
+}
+
+"""
+Boolean expression to filter rows from the table "app._metadata". All fields are combined with a logical 'AND'.
+"""
+input app__metadata_bool_exp {
+	_and: [app__metadata_bool_exp!]
+	_not: app__metadata_bool_exp
+	_or: [app__metadata_bool_exp!]
+	createdAt: timestamptz_comparison_exp
+	key: String_comparison_exp
+	updatedAt: timestamptz_comparison_exp
+	value: jsonb_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "app._metadata"
+"""
+enum app__metadata_constraint {
+	"""
+	unique or primary key constraint on columns "key"
+	"""
+	_metadata_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input app__metadata_delete_at_path_input {
+	value: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input app__metadata_delete_elem_input {
+	value: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input app__metadata_delete_key_input {
+	value: String
+}
+
+"""
+input type for inserting data into table "app._metadata"
+"""
+input app__metadata_insert_input {
+	createdAt: timestamptz
+	key: String
+	updatedAt: timestamptz
+	value: jsonb
+}
+
+"""
+aggregate max on columns
+"""
+type app__metadata_max_fields {
+	createdAt: timestamptz
+	key: String
+	updatedAt: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type app__metadata_min_fields {
+	createdAt: timestamptz
+	key: String
+	updatedAt: timestamptz
+}
+
+"""
+response of any mutation on the table "app._metadata"
+"""
+type app__metadata_mutation_response {
+	"""
+	number of rows affected by the mutation
+	"""
+	affected_rows: Int!
+
+	"""
+	data from the rows affected by the mutation
+	"""
+	returning: [app__metadata!]!
+}
+
+"""
+on_conflict condition type for table "app._metadata"
+"""
+input app__metadata_on_conflict {
+	constraint: app__metadata_constraint!
+	update_columns: [app__metadata_update_column!]! = []
+	where: app__metadata_bool_exp
+}
+
+"""
+Ordering options when selecting data from "app._metadata".
+"""
+input app__metadata_order_by {
+	createdAt: order_by
+	key: order_by
+	updatedAt: order_by
+	value: order_by
+}
+
+"""
+primary key columns input for table: app__metadata
+"""
+input app__metadata_pk_columns_input {
+	key: String!
+}
+
+"""
+prepend existing jsonb value of filtered columns with new jsonb value
+"""
+input app__metadata_prepend_input {
+	value: jsonb
+}
+
+"""
+select columns of table "app._metadata"
+"""
+enum app__metadata_select_column {
+	"""
+	column name
+	"""
+	createdAt
+
+	"""
+	column name
+	"""
+	key
+
+	"""
+	column name
+	"""
+	updatedAt
+
+	"""
+	column name
+	"""
+	value
+}
+
+"""
+input type for updating data in table "app._metadata"
+"""
+input app__metadata_set_input {
+	createdAt: timestamptz
+	key: String
+	updatedAt: timestamptz
+	value: jsonb
+}
+
+"""
+update columns of table "app._metadata"
+"""
+enum app__metadata_update_column {
+	"""
+	column name
+	"""
+	createdAt
+
+	"""
+	column name
+	"""
+	key
+
+	"""
+	column name
+	"""
+	updatedAt
+
+	"""
+	column name
+	"""
+	value
+}
+
+input app__metadata_updates {
+	"""
+	append existing jsonb value of filtered columns with new jsonb value
+	"""
+	_append: app__metadata_append_input
+
+	"""
+	delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+	"""
+	_delete_at_path: app__metadata_delete_at_path_input
+
+	"""
+	delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+	"""
+	_delete_elem: app__metadata_delete_elem_input
+
+	"""
+	delete key/value pair or string element. key/value pairs are matched based on their key value
+	"""
+	_delete_key: app__metadata_delete_key_input
+
+	"""
+	prepend existing jsonb value of filtered columns with new jsonb value
+	"""
+	_prepend: app__metadata_prepend_input
+
+	"""
+	sets the columns of the filtered rows to the given values
+	"""
+	_set: app__metadata_set_input
+	where: app__metadata_bool_exp!
+}
+
+"""
+columns and relationships of "app.blocks"
+"""
+type app_blocks {
+	created_at: timestamp!
+
+	"""
+	An array relationship
+	"""
+	events(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_events_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_events_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_events_bool_exp
+	): [app_events!]!
+
+	"""
+	An aggregate relationship
+	"""
+	events_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_events_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_events_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_events_bool_exp
+	): app_events_aggregate!
+	extrinsic_root: String!
+
+	"""
+	An array relationship
+	"""
+	extrinsics(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_extrinsics_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_extrinsics_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_extrinsics_bool_exp
+	): [app_extrinsics!]!
+
+	"""
+	An aggregate relationship
+	"""
+	extrinsics_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_extrinsics_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_extrinsics_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_extrinsics_bool_exp
+	): app_extrinsics_aggregate!
+	hash: String!
+	id: String!
+
+	"""
+	An array relationship
+	"""
+	logs(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_logs_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_logs_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_logs_bool_exp
+	): [app_logs!]!
+
+	"""
+	An aggregate relationship
+	"""
+	logs_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_logs_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_logs_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_logs_bool_exp
+	): app_logs_aggregate!
+	parent_hash: String!
+	spec_version: Int!
+	state_root: String!
+	validator: String
+}
+
+"""
+aggregated selection of "app.blocks"
+"""
+type app_blocks_aggregate {
+	aggregate: app_blocks_aggregate_fields
+	nodes: [app_blocks!]!
+}
+
+"""
+aggregate fields of "app.blocks"
+"""
+type app_blocks_aggregate_fields {
+	avg: app_blocks_avg_fields
+	count(columns: [app_blocks_select_column!], distinct: Boolean): Int!
+	max: app_blocks_max_fields
+	min: app_blocks_min_fields
+	stddev: app_blocks_stddev_fields
+	stddev_pop: app_blocks_stddev_pop_fields
+	stddev_samp: app_blocks_stddev_samp_fields
+	sum: app_blocks_sum_fields
+	var_pop: app_blocks_var_pop_fields
+	var_samp: app_blocks_var_samp_fields
+	variance: app_blocks_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type app_blocks_avg_fields {
+	spec_version: Float
+}
+
+"""
+Boolean expression to filter rows from the table "app.blocks". All fields are combined with a logical 'AND'.
+"""
+input app_blocks_bool_exp {
+	_and: [app_blocks_bool_exp!]
+	_not: app_blocks_bool_exp
+	_or: [app_blocks_bool_exp!]
+	created_at: timestamp_comparison_exp
+	events: app_events_bool_exp
+	extrinsic_root: String_comparison_exp
+	extrinsics: app_extrinsics_bool_exp
+	hash: String_comparison_exp
+	id: String_comparison_exp
+	logs: app_logs_bool_exp
+	parent_hash: String_comparison_exp
+	spec_version: Int_comparison_exp
+	state_root: String_comparison_exp
+	validator: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "app.blocks"
+"""
+enum app_blocks_constraint {
+	"""
+	unique or primary key constraint on columns "id"
+	"""
+	blocks_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "app.blocks"
+"""
+input app_blocks_inc_input {
+	spec_version: Int
+}
+
+"""
+input type for inserting data into table "app.blocks"
+"""
+input app_blocks_insert_input {
+	created_at: timestamp
+	events: app_events_arr_rel_insert_input
+	extrinsic_root: String
+	extrinsics: app_extrinsics_arr_rel_insert_input
+	hash: String
+	id: String
+	logs: app_logs_arr_rel_insert_input
+	parent_hash: String
+	spec_version: Int
+	state_root: String
+	validator: String
+}
+
+"""
+aggregate max on columns
+"""
+type app_blocks_max_fields {
+	created_at: timestamp
+	extrinsic_root: String
+	hash: String
+	id: String
+	parent_hash: String
+	spec_version: Int
+	state_root: String
+	validator: String
+}
+
+"""
+aggregate min on columns
+"""
+type app_blocks_min_fields {
+	created_at: timestamp
+	extrinsic_root: String
+	hash: String
+	id: String
+	parent_hash: String
+	spec_version: Int
+	state_root: String
+	validator: String
+}
+
+"""
+response of any mutation on the table "app.blocks"
+"""
+type app_blocks_mutation_response {
+	"""
+	number of rows affected by the mutation
+	"""
+	affected_rows: Int!
+
+	"""
+	data from the rows affected by the mutation
+	"""
+	returning: [app_blocks!]!
+}
+
+"""
+input type for inserting object relation for remote table "app.blocks"
+"""
+input app_blocks_obj_rel_insert_input {
+	data: app_blocks_insert_input!
+
+	"""
+	upsert condition
+	"""
+	on_conflict: app_blocks_on_conflict
+}
+
+"""
+on_conflict condition type for table "app.blocks"
+"""
+input app_blocks_on_conflict {
+	constraint: app_blocks_constraint!
+	update_columns: [app_blocks_update_column!]! = []
+	where: app_blocks_bool_exp
+}
+
+"""
+Ordering options when selecting data from "app.blocks".
+"""
+input app_blocks_order_by {
+	created_at: order_by
+	events_aggregate: app_events_aggregate_order_by
+	extrinsic_root: order_by
+	extrinsics_aggregate: app_extrinsics_aggregate_order_by
+	hash: order_by
+	id: order_by
+	logs_aggregate: app_logs_aggregate_order_by
+	parent_hash: order_by
+	spec_version: order_by
+	state_root: order_by
+	validator: order_by
+}
+
+"""
+primary key columns input for table: app_blocks
+"""
+input app_blocks_pk_columns_input {
+	id: String!
+}
+
+"""
+select columns of table "app.blocks"
+"""
+enum app_blocks_select_column {
+	"""
+	column name
+	"""
+	created_at
+
+	"""
+	column name
+	"""
+	extrinsic_root
+
+	"""
+	column name
+	"""
+	hash
+
+	"""
+	column name
+	"""
+	id
+
+	"""
+	column name
+	"""
+	parent_hash
+
+	"""
+	column name
+	"""
+	spec_version
+
+	"""
+	column name
+	"""
+	state_root
+
+	"""
+	column name
+	"""
+	validator
+}
+
+"""
+input type for updating data in table "app.blocks"
+"""
+input app_blocks_set_input {
+	created_at: timestamp
+	extrinsic_root: String
+	hash: String
+	id: String
+	parent_hash: String
+	spec_version: Int
+	state_root: String
+	validator: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type app_blocks_stddev_fields {
+	spec_version: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type app_blocks_stddev_pop_fields {
+	spec_version: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type app_blocks_stddev_samp_fields {
+	spec_version: Float
+}
+
+"""
+aggregate sum on columns
+"""
+type app_blocks_sum_fields {
+	spec_version: Int
+}
+
+"""
+update columns of table "app.blocks"
+"""
+enum app_blocks_update_column {
+	"""
+	column name
+	"""
+	created_at
+
+	"""
+	column name
+	"""
+	extrinsic_root
+
+	"""
+	column name
+	"""
+	hash
+
+	"""
+	column name
+	"""
+	id
+
+	"""
+	column name
+	"""
+	parent_hash
+
+	"""
+	column name
+	"""
+	spec_version
+
+	"""
+	column name
+	"""
+	state_root
+
+	"""
+	column name
+	"""
+	validator
+}
+
+input app_blocks_updates {
+	"""
+	increments the numeric columns with given value of the filtered values
+	"""
+	_inc: app_blocks_inc_input
+
+	"""
+	sets the columns of the filtered rows to the given values
+	"""
+	_set: app_blocks_set_input
+	where: app_blocks_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type app_blocks_var_pop_fields {
+	spec_version: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type app_blocks_var_samp_fields {
+	spec_version: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type app_blocks_variance_fields {
+	spec_version: Float
+}
+
+"""
+columns and relationships of "app.events"
+"""
+type app_events {
+	"""
+	An object relationship
+	"""
+	block: app_blocks
+	block_id: String
+	created_at: timestamp!
+	emit_data(
+		"""
+		JSON select path
+		"""
+		path: String
+	): jsonb
+	emit_method: String!
+	emit_section: String!
+
+	"""
+	An object relationship
+	"""
+	extrinsic: app_extrinsics
+	extrinsic_id: String
+	id: String!
+	index: Int!
+	phase: String
+}
+
+"""
+aggregated selection of "app.events"
+"""
+type app_events_aggregate {
+	aggregate: app_events_aggregate_fields
+	nodes: [app_events!]!
+}
+
+"""
+aggregate fields of "app.events"
+"""
+type app_events_aggregate_fields {
+	avg: app_events_avg_fields
+	count(columns: [app_events_select_column!], distinct: Boolean): Int!
+	max: app_events_max_fields
+	min: app_events_min_fields
+	stddev: app_events_stddev_fields
+	stddev_pop: app_events_stddev_pop_fields
+	stddev_samp: app_events_stddev_samp_fields
+	sum: app_events_sum_fields
+	var_pop: app_events_var_pop_fields
+	var_samp: app_events_var_samp_fields
+	variance: app_events_variance_fields
+}
+
+"""
+order by aggregate values of table "app.events"
+"""
+input app_events_aggregate_order_by {
+	avg: app_events_avg_order_by
+	count: order_by
+	max: app_events_max_order_by
+	min: app_events_min_order_by
+	stddev: app_events_stddev_order_by
+	stddev_pop: app_events_stddev_pop_order_by
+	stddev_samp: app_events_stddev_samp_order_by
+	sum: app_events_sum_order_by
+	var_pop: app_events_var_pop_order_by
+	var_samp: app_events_var_samp_order_by
+	variance: app_events_variance_order_by
+}
+
+"""
+append existing jsonb value of filtered columns with new jsonb value
+"""
+input app_events_append_input {
+	emit_data: jsonb
+}
+
+"""
+input type for inserting array relation for remote table "app.events"
+"""
+input app_events_arr_rel_insert_input {
+	data: [app_events_insert_input!]!
+
+	"""
+	upsert condition
+	"""
+	on_conflict: app_events_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type app_events_avg_fields {
+	index: Float
+}
+
+"""
+order by avg() on columns of table "app.events"
+"""
+input app_events_avg_order_by {
+	index: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "app.events". All fields are combined with a logical 'AND'.
+"""
+input app_events_bool_exp {
+	_and: [app_events_bool_exp!]
+	_not: app_events_bool_exp
+	_or: [app_events_bool_exp!]
+	block: app_blocks_bool_exp
+	block_id: String_comparison_exp
+	created_at: timestamp_comparison_exp
+	emit_data: jsonb_comparison_exp
+	emit_method: String_comparison_exp
+	emit_section: String_comparison_exp
+	extrinsic: app_extrinsics_bool_exp
+	extrinsic_id: String_comparison_exp
+	id: String_comparison_exp
+	index: Int_comparison_exp
+	phase: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "app.events"
+"""
+enum app_events_constraint {
+	"""
+	unique or primary key constraint on columns "id"
+	"""
+	events_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input app_events_delete_at_path_input {
+	emit_data: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input app_events_delete_elem_input {
+	emit_data: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input app_events_delete_key_input {
+	emit_data: String
+}
+
+"""
+input type for incrementing numeric columns in table "app.events"
+"""
+input app_events_inc_input {
+	index: Int
+}
+
+"""
+input type for inserting data into table "app.events"
+"""
+input app_events_insert_input {
+	block: app_blocks_obj_rel_insert_input
+	block_id: String
+	created_at: timestamp
+	emit_data: jsonb
+	emit_method: String
+	emit_section: String
+	extrinsic: app_extrinsics_obj_rel_insert_input
+	extrinsic_id: String
+	id: String
+	index: Int
+	phase: String
+}
+
+"""
+aggregate max on columns
+"""
+type app_events_max_fields {
+	block_id: String
+	created_at: timestamp
+	emit_method: String
+	emit_section: String
+	extrinsic_id: String
+	id: String
+	index: Int
+	phase: String
+}
+
+"""
+order by max() on columns of table "app.events"
+"""
+input app_events_max_order_by {
+	block_id: order_by
+	created_at: order_by
+	emit_method: order_by
+	emit_section: order_by
+	extrinsic_id: order_by
+	id: order_by
+	index: order_by
+	phase: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type app_events_min_fields {
+	block_id: String
+	created_at: timestamp
+	emit_method: String
+	emit_section: String
+	extrinsic_id: String
+	id: String
+	index: Int
+	phase: String
+}
+
+"""
+order by min() on columns of table "app.events"
+"""
+input app_events_min_order_by {
+	block_id: order_by
+	created_at: order_by
+	emit_method: order_by
+	emit_section: order_by
+	extrinsic_id: order_by
+	id: order_by
+	index: order_by
+	phase: order_by
+}
+
+"""
+response of any mutation on the table "app.events"
+"""
+type app_events_mutation_response {
+	"""
+	number of rows affected by the mutation
+	"""
+	affected_rows: Int!
+
+	"""
+	data from the rows affected by the mutation
+	"""
+	returning: [app_events!]!
+}
+
+"""
+on_conflict condition type for table "app.events"
+"""
+input app_events_on_conflict {
+	constraint: app_events_constraint!
+	update_columns: [app_events_update_column!]! = []
+	where: app_events_bool_exp
+}
+
+"""
+Ordering options when selecting data from "app.events".
+"""
+input app_events_order_by {
+	block: app_blocks_order_by
+	block_id: order_by
+	created_at: order_by
+	emit_data: order_by
+	emit_method: order_by
+	emit_section: order_by
+	extrinsic: app_extrinsics_order_by
+	extrinsic_id: order_by
+	id: order_by
+	index: order_by
+	phase: order_by
+}
+
+"""
+primary key columns input for table: app_events
+"""
+input app_events_pk_columns_input {
+	id: String!
+}
+
+"""
+prepend existing jsonb value of filtered columns with new jsonb value
+"""
+input app_events_prepend_input {
+	emit_data: jsonb
+}
+
+"""
+select columns of table "app.events"
+"""
+enum app_events_select_column {
+	"""
+	column name
+	"""
+	block_id
+
+	"""
+	column name
+	"""
+	created_at
+
+	"""
+	column name
+	"""
+	emit_data
+
+	"""
+	column name
+	"""
+	emit_method
+
+	"""
+	column name
+	"""
+	emit_section
+
+	"""
+	column name
+	"""
+	extrinsic_id
+
+	"""
+	column name
+	"""
+	id
+
+	"""
+	column name
+	"""
+	index
+
+	"""
+	column name
+	"""
+	phase
+}
+
+"""
+input type for updating data in table "app.events"
+"""
+input app_events_set_input {
+	block_id: String
+	created_at: timestamp
+	emit_data: jsonb
+	emit_method: String
+	emit_section: String
+	extrinsic_id: String
+	id: String
+	index: Int
+	phase: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type app_events_stddev_fields {
+	index: Float
+}
+
+"""
+order by stddev() on columns of table "app.events"
+"""
+input app_events_stddev_order_by {
+	index: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type app_events_stddev_pop_fields {
+	index: Float
+}
+
+"""
+order by stddev_pop() on columns of table "app.events"
+"""
+input app_events_stddev_pop_order_by {
+	index: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type app_events_stddev_samp_fields {
+	index: Float
+}
+
+"""
+order by stddev_samp() on columns of table "app.events"
+"""
+input app_events_stddev_samp_order_by {
+	index: order_by
+}
+
+"""
+aggregate sum on columns
+"""
+type app_events_sum_fields {
+	index: Int
+}
+
+"""
+order by sum() on columns of table "app.events"
+"""
+input app_events_sum_order_by {
+	index: order_by
+}
+
+"""
+update columns of table "app.events"
+"""
+enum app_events_update_column {
+	"""
+	column name
+	"""
+	block_id
+
+	"""
+	column name
+	"""
+	created_at
+
+	"""
+	column name
+	"""
+	emit_data
+
+	"""
+	column name
+	"""
+	emit_method
+
+	"""
+	column name
+	"""
+	emit_section
+
+	"""
+	column name
+	"""
+	extrinsic_id
+
+	"""
+	column name
+	"""
+	id
+
+	"""
+	column name
+	"""
+	index
+
+	"""
+	column name
+	"""
+	phase
+}
+
+input app_events_updates {
+	"""
+	append existing jsonb value of filtered columns with new jsonb value
+	"""
+	_append: app_events_append_input
+
+	"""
+	delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+	"""
+	_delete_at_path: app_events_delete_at_path_input
+
+	"""
+	delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+	"""
+	_delete_elem: app_events_delete_elem_input
+
+	"""
+	delete key/value pair or string element. key/value pairs are matched based on their key value
+	"""
+	_delete_key: app_events_delete_key_input
+
+	"""
+	increments the numeric columns with given value of the filtered values
+	"""
+	_inc: app_events_inc_input
+
+	"""
+	prepend existing jsonb value of filtered columns with new jsonb value
+	"""
+	_prepend: app_events_prepend_input
+
+	"""
+	sets the columns of the filtered rows to the given values
+	"""
+	_set: app_events_set_input
+	where: app_events_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type app_events_var_pop_fields {
+	index: Float
+}
+
+"""
+order by var_pop() on columns of table "app.events"
+"""
+input app_events_var_pop_order_by {
+	index: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type app_events_var_samp_fields {
+	index: Float
+}
+
+"""
+order by var_samp() on columns of table "app.events"
+"""
+input app_events_var_samp_order_by {
+	index: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type app_events_variance_fields {
+	index: Float
+}
+
+"""
+order by variance() on columns of table "app.events"
+"""
+input app_events_variance_order_by {
+	index: order_by
+}
+
+"""
+columns and relationships of "app.extrinsics"
+"""
+type app_extrinsics {
+	"""
+	An object relationship
+	"""
+	block: app_blocks!
+	block_id: String!
+	call_args(
+		"""
+		JSON select path
+		"""
+		path: String
+	): jsonb
+	call_method: String!
+	call_section: String!
+	created_at: timestamp!
+
+	"""
+	An array relationship
+	"""
+	events(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_events_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_events_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_events_bool_exp
+	): [app_events!]!
+
+	"""
+	An aggregate relationship
+	"""
+	events_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_events_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_events_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_events_bool_exp
+	): app_events_aggregate!
+	hash: String!
+	id: String!
+	index: Int!
+	is_signed: Boolean
+	is_success: Boolean
+	lifetime(
+		"""
+		JSON select path
+		"""
+		path: String
+	): jsonb!
+	signature: String
+	signer: String
+	tip: String
+}
+
+"""
+aggregated selection of "app.extrinsics"
+"""
+type app_extrinsics_aggregate {
+	aggregate: app_extrinsics_aggregate_fields
+	nodes: [app_extrinsics!]!
+}
+
+"""
+aggregate fields of "app.extrinsics"
+"""
+type app_extrinsics_aggregate_fields {
+	avg: app_extrinsics_avg_fields
+	count(columns: [app_extrinsics_select_column!], distinct: Boolean): Int!
+	max: app_extrinsics_max_fields
+	min: app_extrinsics_min_fields
+	stddev: app_extrinsics_stddev_fields
+	stddev_pop: app_extrinsics_stddev_pop_fields
+	stddev_samp: app_extrinsics_stddev_samp_fields
+	sum: app_extrinsics_sum_fields
+	var_pop: app_extrinsics_var_pop_fields
+	var_samp: app_extrinsics_var_samp_fields
+	variance: app_extrinsics_variance_fields
+}
+
+"""
+order by aggregate values of table "app.extrinsics"
+"""
+input app_extrinsics_aggregate_order_by {
+	avg: app_extrinsics_avg_order_by
+	count: order_by
+	max: app_extrinsics_max_order_by
+	min: app_extrinsics_min_order_by
+	stddev: app_extrinsics_stddev_order_by
+	stddev_pop: app_extrinsics_stddev_pop_order_by
+	stddev_samp: app_extrinsics_stddev_samp_order_by
+	sum: app_extrinsics_sum_order_by
+	var_pop: app_extrinsics_var_pop_order_by
+	var_samp: app_extrinsics_var_samp_order_by
+	variance: app_extrinsics_variance_order_by
+}
+
+"""
+append existing jsonb value of filtered columns with new jsonb value
+"""
+input app_extrinsics_append_input {
+	call_args: jsonb
+	lifetime: jsonb
+}
+
+"""
+input type for inserting array relation for remote table "app.extrinsics"
+"""
+input app_extrinsics_arr_rel_insert_input {
+	data: [app_extrinsics_insert_input!]!
+
+	"""
+	upsert condition
+	"""
+	on_conflict: app_extrinsics_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type app_extrinsics_avg_fields {
+	index: Float
+}
+
+"""
+order by avg() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_avg_order_by {
+	index: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "app.extrinsics". All fields are combined with a logical 'AND'.
+"""
+input app_extrinsics_bool_exp {
+	_and: [app_extrinsics_bool_exp!]
+	_not: app_extrinsics_bool_exp
+	_or: [app_extrinsics_bool_exp!]
+	block: app_blocks_bool_exp
+	block_id: String_comparison_exp
+	call_args: jsonb_comparison_exp
+	call_method: String_comparison_exp
+	call_section: String_comparison_exp
+	created_at: timestamp_comparison_exp
+	events: app_events_bool_exp
+	hash: String_comparison_exp
+	id: String_comparison_exp
+	index: Int_comparison_exp
+	is_signed: Boolean_comparison_exp
+	is_success: Boolean_comparison_exp
+	lifetime: jsonb_comparison_exp
+	signature: String_comparison_exp
+	signer: String_comparison_exp
+	tip: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "app.extrinsics"
+"""
+enum app_extrinsics_constraint {
+	"""
+	unique or primary key constraint on columns "id"
+	"""
+	extrinsics_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input app_extrinsics_delete_at_path_input {
+	call_args: [String!]
+	lifetime: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input app_extrinsics_delete_elem_input {
+	call_args: Int
+	lifetime: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input app_extrinsics_delete_key_input {
+	call_args: String
+	lifetime: String
+}
+
+"""
+input type for incrementing numeric columns in table "app.extrinsics"
+"""
+input app_extrinsics_inc_input {
+	index: Int
+}
+
+"""
+input type for inserting data into table "app.extrinsics"
+"""
+input app_extrinsics_insert_input {
+	block: app_blocks_obj_rel_insert_input
+	block_id: String
+	call_args: jsonb
+	call_method: String
+	call_section: String
+	created_at: timestamp
+	events: app_events_arr_rel_insert_input
+	hash: String
+	id: String
+	index: Int
+	is_signed: Boolean
+	is_success: Boolean
+	lifetime: jsonb
+	signature: String
+	signer: String
+	tip: String
+}
+
+"""
+aggregate max on columns
+"""
+type app_extrinsics_max_fields {
+	block_id: String
+	call_method: String
+	call_section: String
+	created_at: timestamp
+	hash: String
+	id: String
+	index: Int
+	signature: String
+	signer: String
+	tip: String
+}
+
+"""
+order by max() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_max_order_by {
+	block_id: order_by
+	call_method: order_by
+	call_section: order_by
+	created_at: order_by
+	hash: order_by
+	id: order_by
+	index: order_by
+	signature: order_by
+	signer: order_by
+	tip: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type app_extrinsics_min_fields {
+	block_id: String
+	call_method: String
+	call_section: String
+	created_at: timestamp
+	hash: String
+	id: String
+	index: Int
+	signature: String
+	signer: String
+	tip: String
+}
+
+"""
+order by min() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_min_order_by {
+	block_id: order_by
+	call_method: order_by
+	call_section: order_by
+	created_at: order_by
+	hash: order_by
+	id: order_by
+	index: order_by
+	signature: order_by
+	signer: order_by
+	tip: order_by
+}
+
+"""
+response of any mutation on the table "app.extrinsics"
+"""
+type app_extrinsics_mutation_response {
+	"""
+	number of rows affected by the mutation
+	"""
+	affected_rows: Int!
+
+	"""
+	data from the rows affected by the mutation
+	"""
+	returning: [app_extrinsics!]!
+}
+
+"""
+input type for inserting object relation for remote table "app.extrinsics"
+"""
+input app_extrinsics_obj_rel_insert_input {
+	data: app_extrinsics_insert_input!
+
+	"""
+	upsert condition
+	"""
+	on_conflict: app_extrinsics_on_conflict
+}
+
+"""
+on_conflict condition type for table "app.extrinsics"
+"""
+input app_extrinsics_on_conflict {
+	constraint: app_extrinsics_constraint!
+	update_columns: [app_extrinsics_update_column!]! = []
+	where: app_extrinsics_bool_exp
+}
+
+"""
+Ordering options when selecting data from "app.extrinsics".
+"""
+input app_extrinsics_order_by {
+	block: app_blocks_order_by
+	block_id: order_by
+	call_args: order_by
+	call_method: order_by
+	call_section: order_by
+	created_at: order_by
+	events_aggregate: app_events_aggregate_order_by
+	hash: order_by
+	id: order_by
+	index: order_by
+	is_signed: order_by
+	is_success: order_by
+	lifetime: order_by
+	signature: order_by
+	signer: order_by
+	tip: order_by
+}
+
+"""
+primary key columns input for table: app_extrinsics
+"""
+input app_extrinsics_pk_columns_input {
+	id: String!
+}
+
+"""
+prepend existing jsonb value of filtered columns with new jsonb value
+"""
+input app_extrinsics_prepend_input {
+	call_args: jsonb
+	lifetime: jsonb
+}
+
+"""
+select columns of table "app.extrinsics"
+"""
+enum app_extrinsics_select_column {
+	"""
+	column name
+	"""
+	block_id
+
+	"""
+	column name
+	"""
+	call_args
+
+	"""
+	column name
+	"""
+	call_method
+
+	"""
+	column name
+	"""
+	call_section
+
+	"""
+	column name
+	"""
+	created_at
+
+	"""
+	column name
+	"""
+	hash
+
+	"""
+	column name
+	"""
+	id
+
+	"""
+	column name
+	"""
+	index
+
+	"""
+	column name
+	"""
+	is_signed
+
+	"""
+	column name
+	"""
+	is_success
+
+	"""
+	column name
+	"""
+	lifetime
+
+	"""
+	column name
+	"""
+	signature
+
+	"""
+	column name
+	"""
+	signer
+
+	"""
+	column name
+	"""
+	tip
+}
+
+"""
+input type for updating data in table "app.extrinsics"
+"""
+input app_extrinsics_set_input {
+	block_id: String
+	call_args: jsonb
+	call_method: String
+	call_section: String
+	created_at: timestamp
+	hash: String
+	id: String
+	index: Int
+	is_signed: Boolean
+	is_success: Boolean
+	lifetime: jsonb
+	signature: String
+	signer: String
+	tip: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type app_extrinsics_stddev_fields {
+	index: Float
+}
+
+"""
+order by stddev() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_stddev_order_by {
+	index: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type app_extrinsics_stddev_pop_fields {
+	index: Float
+}
+
+"""
+order by stddev_pop() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_stddev_pop_order_by {
+	index: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type app_extrinsics_stddev_samp_fields {
+	index: Float
+}
+
+"""
+order by stddev_samp() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_stddev_samp_order_by {
+	index: order_by
+}
+
+"""
+aggregate sum on columns
+"""
+type app_extrinsics_sum_fields {
+	index: Int
+}
+
+"""
+order by sum() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_sum_order_by {
+	index: order_by
+}
+
+"""
+update columns of table "app.extrinsics"
+"""
+enum app_extrinsics_update_column {
+	"""
+	column name
+	"""
+	block_id
+
+	"""
+	column name
+	"""
+	call_args
+
+	"""
+	column name
+	"""
+	call_method
+
+	"""
+	column name
+	"""
+	call_section
+
+	"""
+	column name
+	"""
+	created_at
+
+	"""
+	column name
+	"""
+	hash
+
+	"""
+	column name
+	"""
+	id
+
+	"""
+	column name
+	"""
+	index
+
+	"""
+	column name
+	"""
+	is_signed
+
+	"""
+	column name
+	"""
+	is_success
+
+	"""
+	column name
+	"""
+	lifetime
+
+	"""
+	column name
+	"""
+	signature
+
+	"""
+	column name
+	"""
+	signer
+
+	"""
+	column name
+	"""
+	tip
+}
+
+input app_extrinsics_updates {
+	"""
+	append existing jsonb value of filtered columns with new jsonb value
+	"""
+	_append: app_extrinsics_append_input
+
+	"""
+	delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+	"""
+	_delete_at_path: app_extrinsics_delete_at_path_input
+
+	"""
+	delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+	"""
+	_delete_elem: app_extrinsics_delete_elem_input
+
+	"""
+	delete key/value pair or string element. key/value pairs are matched based on their key value
+	"""
+	_delete_key: app_extrinsics_delete_key_input
+
+	"""
+	increments the numeric columns with given value of the filtered values
+	"""
+	_inc: app_extrinsics_inc_input
+
+	"""
+	prepend existing jsonb value of filtered columns with new jsonb value
+	"""
+	_prepend: app_extrinsics_prepend_input
+
+	"""
+	sets the columns of the filtered rows to the given values
+	"""
+	_set: app_extrinsics_set_input
+	where: app_extrinsics_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type app_extrinsics_var_pop_fields {
+	index: Float
+}
+
+"""
+order by var_pop() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_var_pop_order_by {
+	index: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type app_extrinsics_var_samp_fields {
+	index: Float
+}
+
+"""
+order by var_samp() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_var_samp_order_by {
+	index: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type app_extrinsics_variance_fields {
+	index: Float
+}
+
+"""
+order by variance() on columns of table "app.extrinsics"
+"""
+input app_extrinsics_variance_order_by {
+	index: order_by
+}
+
+"""
+columns and relationships of "app.logs"
+"""
+type app_logs {
+	"""
+	An object relationship
+	"""
+	block: app_blocks!
+	block_id: String!
+	created_at: timestamp!
+	data: String
+	digest: String!
+	engine: String
+	id: String!
+	index: Int!
+	type: String!
+}
+
+"""
+aggregated selection of "app.logs"
+"""
+type app_logs_aggregate {
+	aggregate: app_logs_aggregate_fields
+	nodes: [app_logs!]!
+}
+
+"""
+aggregate fields of "app.logs"
+"""
+type app_logs_aggregate_fields {
+	avg: app_logs_avg_fields
+	count(columns: [app_logs_select_column!], distinct: Boolean): Int!
+	max: app_logs_max_fields
+	min: app_logs_min_fields
+	stddev: app_logs_stddev_fields
+	stddev_pop: app_logs_stddev_pop_fields
+	stddev_samp: app_logs_stddev_samp_fields
+	sum: app_logs_sum_fields
+	var_pop: app_logs_var_pop_fields
+	var_samp: app_logs_var_samp_fields
+	variance: app_logs_variance_fields
+}
+
+"""
+order by aggregate values of table "app.logs"
+"""
+input app_logs_aggregate_order_by {
+	avg: app_logs_avg_order_by
+	count: order_by
+	max: app_logs_max_order_by
+	min: app_logs_min_order_by
+	stddev: app_logs_stddev_order_by
+	stddev_pop: app_logs_stddev_pop_order_by
+	stddev_samp: app_logs_stddev_samp_order_by
+	sum: app_logs_sum_order_by
+	var_pop: app_logs_var_pop_order_by
+	var_samp: app_logs_var_samp_order_by
+	variance: app_logs_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "app.logs"
+"""
+input app_logs_arr_rel_insert_input {
+	data: [app_logs_insert_input!]!
+
+	"""
+	upsert condition
+	"""
+	on_conflict: app_logs_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type app_logs_avg_fields {
+	index: Float
+}
+
+"""
+order by avg() on columns of table "app.logs"
+"""
+input app_logs_avg_order_by {
+	index: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "app.logs". All fields are combined with a logical 'AND'.
+"""
+input app_logs_bool_exp {
+	_and: [app_logs_bool_exp!]
+	_not: app_logs_bool_exp
+	_or: [app_logs_bool_exp!]
+	block: app_blocks_bool_exp
+	block_id: String_comparison_exp
+	created_at: timestamp_comparison_exp
+	data: String_comparison_exp
+	digest: String_comparison_exp
+	engine: String_comparison_exp
+	id: String_comparison_exp
+	index: Int_comparison_exp
+	type: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "app.logs"
+"""
+enum app_logs_constraint {
+	"""
+	unique or primary key constraint on columns "id"
+	"""
+	logs_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "app.logs"
+"""
+input app_logs_inc_input {
+	index: Int
+}
+
+"""
+input type for inserting data into table "app.logs"
+"""
+input app_logs_insert_input {
+	block: app_blocks_obj_rel_insert_input
+	block_id: String
+	created_at: timestamp
+	data: String
+	digest: String
+	engine: String
+	id: String
+	index: Int
+	type: String
+}
+
+"""
+aggregate max on columns
+"""
+type app_logs_max_fields {
+	block_id: String
+	created_at: timestamp
+	data: String
+	digest: String
+	engine: String
+	id: String
+	index: Int
+	type: String
+}
+
+"""
+order by max() on columns of table "app.logs"
+"""
+input app_logs_max_order_by {
+	block_id: order_by
+	created_at: order_by
+	data: order_by
+	digest: order_by
+	engine: order_by
+	id: order_by
+	index: order_by
+	type: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type app_logs_min_fields {
+	block_id: String
+	created_at: timestamp
+	data: String
+	digest: String
+	engine: String
+	id: String
+	index: Int
+	type: String
+}
+
+"""
+order by min() on columns of table "app.logs"
+"""
+input app_logs_min_order_by {
+	block_id: order_by
+	created_at: order_by
+	data: order_by
+	digest: order_by
+	engine: order_by
+	id: order_by
+	index: order_by
+	type: order_by
+}
+
+"""
+response of any mutation on the table "app.logs"
+"""
+type app_logs_mutation_response {
+	"""
+	number of rows affected by the mutation
+	"""
+	affected_rows: Int!
+
+	"""
+	data from the rows affected by the mutation
+	"""
+	returning: [app_logs!]!
+}
+
+"""
+on_conflict condition type for table "app.logs"
+"""
+input app_logs_on_conflict {
+	constraint: app_logs_constraint!
+	update_columns: [app_logs_update_column!]! = []
+	where: app_logs_bool_exp
+}
+
+"""
+Ordering options when selecting data from "app.logs".
+"""
+input app_logs_order_by {
+	block: app_blocks_order_by
+	block_id: order_by
+	created_at: order_by
+	data: order_by
+	digest: order_by
+	engine: order_by
+	id: order_by
+	index: order_by
+	type: order_by
+}
+
+"""
+primary key columns input for table: app_logs
+"""
+input app_logs_pk_columns_input {
+	id: String!
+}
+
+"""
+select columns of table "app.logs"
+"""
+enum app_logs_select_column {
+	"""
+	column name
+	"""
+	block_id
+
+	"""
+	column name
+	"""
+	created_at
+
+	"""
+	column name
+	"""
+	data
+
+	"""
+	column name
+	"""
+	digest
+
+	"""
+	column name
+	"""
+	engine
+
+	"""
+	column name
+	"""
+	id
+
+	"""
+	column name
+	"""
+	index
+
+	"""
+	column name
+	"""
+	type
+}
+
+"""
+input type for updating data in table "app.logs"
+"""
+input app_logs_set_input {
+	block_id: String
+	created_at: timestamp
+	data: String
+	digest: String
+	engine: String
+	id: String
+	index: Int
+	type: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type app_logs_stddev_fields {
+	index: Float
+}
+
+"""
+order by stddev() on columns of table "app.logs"
+"""
+input app_logs_stddev_order_by {
+	index: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type app_logs_stddev_pop_fields {
+	index: Float
+}
+
+"""
+order by stddev_pop() on columns of table "app.logs"
+"""
+input app_logs_stddev_pop_order_by {
+	index: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type app_logs_stddev_samp_fields {
+	index: Float
+}
+
+"""
+order by stddev_samp() on columns of table "app.logs"
+"""
+input app_logs_stddev_samp_order_by {
+	index: order_by
+}
+
+"""
+aggregate sum on columns
+"""
+type app_logs_sum_fields {
+	index: Int
+}
+
+"""
+order by sum() on columns of table "app.logs"
+"""
+input app_logs_sum_order_by {
+	index: order_by
+}
+
+"""
+update columns of table "app.logs"
+"""
+enum app_logs_update_column {
+	"""
+	column name
+	"""
+	block_id
+
+	"""
+	column name
+	"""
+	created_at
+
+	"""
+	column name
+	"""
+	data
+
+	"""
+	column name
+	"""
+	digest
+
+	"""
+	column name
+	"""
+	engine
+
+	"""
+	column name
+	"""
+	id
+
+	"""
+	column name
+	"""
+	index
+
+	"""
+	column name
+	"""
+	type
+}
+
+input app_logs_updates {
+	"""
+	increments the numeric columns with given value of the filtered values
+	"""
+	_inc: app_logs_inc_input
+
+	"""
+	sets the columns of the filtered rows to the given values
+	"""
+	_set: app_logs_set_input
+	where: app_logs_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type app_logs_var_pop_fields {
+	index: Float
+}
+
+"""
+order by var_pop() on columns of table "app.logs"
+"""
+input app_logs_var_pop_order_by {
+	index: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type app_logs_var_samp_fields {
+	index: Float
+}
+
+"""
+order by var_samp() on columns of table "app.logs"
+"""
+input app_logs_var_samp_order_by {
+	index: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type app_logs_variance_fields {
+	index: Float
+}
+
+"""
+order by variance() on columns of table "app.logs"
+"""
+input app_logs_variance_order_by {
+	index: order_by
+}
+
+scalar jsonb
+
+input jsonb_cast_exp {
+	String: String_comparison_exp
+}
+
+"""
+Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'.
+"""
+input jsonb_comparison_exp {
+	_cast: jsonb_cast_exp
+
+	"""
+	is the column contained in the given json value
+	"""
+	_contained_in: jsonb
+
+	"""
+	does the column contain the given json value at the top level
+	"""
+	_contains: jsonb
+	_eq: jsonb
+	_gt: jsonb
+	_gte: jsonb
+
+	"""
+	does the string exist as a top-level key in the column
+	"""
+	_has_key: String
+
+	"""
+	do all of these strings exist as top-level keys in the column
+	"""
+	_has_keys_all: [String!]
+
+	"""
+	do any of these strings exist as top-level keys in the column
+	"""
+	_has_keys_any: [String!]
+	_in: [jsonb!]
+	_is_null: Boolean
+	_lt: jsonb
+	_lte: jsonb
+	_neq: jsonb
+	_nin: [jsonb!]
+}
+
+"""
+mutation root
+"""
+type mutation_root {
+	"""
+	delete data from the table: "app._metadata"
+	"""
+	delete_app__metadata(
+		"""
+		filter the rows which have to be deleted
+		"""
+		where: app__metadata_bool_exp!
+	): app__metadata_mutation_response
+
+	"""
+	delete single row from the table: "app._metadata"
+	"""
+	delete_app__metadata_by_pk(key: String!): app__metadata
+
+	"""
+	delete data from the table: "app.blocks"
+	"""
+	delete_app_blocks(
+		"""
+		filter the rows which have to be deleted
+		"""
+		where: app_blocks_bool_exp!
+	): app_blocks_mutation_response
+
+	"""
+	delete single row from the table: "app.blocks"
+	"""
+	delete_app_blocks_by_pk(id: String!): app_blocks
+
+	"""
+	delete data from the table: "app.events"
+	"""
+	delete_app_events(
+		"""
+		filter the rows which have to be deleted
+		"""
+		where: app_events_bool_exp!
+	): app_events_mutation_response
+
+	"""
+	delete single row from the table: "app.events"
+	"""
+	delete_app_events_by_pk(id: String!): app_events
+
+	"""
+	delete data from the table: "app.extrinsics"
+	"""
+	delete_app_extrinsics(
+		"""
+		filter the rows which have to be deleted
+		"""
+		where: app_extrinsics_bool_exp!
+	): app_extrinsics_mutation_response
+
+	"""
+	delete single row from the table: "app.extrinsics"
+	"""
+	delete_app_extrinsics_by_pk(id: String!): app_extrinsics
+
+	"""
+	delete data from the table: "app.logs"
+	"""
+	delete_app_logs(
+		"""
+		filter the rows which have to be deleted
+		"""
+		where: app_logs_bool_exp!
+	): app_logs_mutation_response
+
+	"""
+	delete single row from the table: "app.logs"
+	"""
+	delete_app_logs_by_pk(id: String!): app_logs
+
+	"""
+	insert data into the table: "app._metadata"
+	"""
+	insert_app__metadata(
+		"""
+		the rows to be inserted
+		"""
+		objects: [app__metadata_insert_input!]!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app__metadata_on_conflict
+	): app__metadata_mutation_response
+
+	"""
+	insert a single row into the table: "app._metadata"
+	"""
+	insert_app__metadata_one(
+		"""
+		the row to be inserted
+		"""
+		object: app__metadata_insert_input!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app__metadata_on_conflict
+	): app__metadata
+
+	"""
+	insert data into the table: "app.blocks"
+	"""
+	insert_app_blocks(
+		"""
+		the rows to be inserted
+		"""
+		objects: [app_blocks_insert_input!]!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app_blocks_on_conflict
+	): app_blocks_mutation_response
+
+	"""
+	insert a single row into the table: "app.blocks"
+	"""
+	insert_app_blocks_one(
+		"""
+		the row to be inserted
+		"""
+		object: app_blocks_insert_input!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app_blocks_on_conflict
+	): app_blocks
+
+	"""
+	insert data into the table: "app.events"
+	"""
+	insert_app_events(
+		"""
+		the rows to be inserted
+		"""
+		objects: [app_events_insert_input!]!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app_events_on_conflict
+	): app_events_mutation_response
+
+	"""
+	insert a single row into the table: "app.events"
+	"""
+	insert_app_events_one(
+		"""
+		the row to be inserted
+		"""
+		object: app_events_insert_input!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app_events_on_conflict
+	): app_events
+
+	"""
+	insert data into the table: "app.extrinsics"
+	"""
+	insert_app_extrinsics(
+		"""
+		the rows to be inserted
+		"""
+		objects: [app_extrinsics_insert_input!]!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app_extrinsics_on_conflict
+	): app_extrinsics_mutation_response
+
+	"""
+	insert a single row into the table: "app.extrinsics"
+	"""
+	insert_app_extrinsics_one(
+		"""
+		the row to be inserted
+		"""
+		object: app_extrinsics_insert_input!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app_extrinsics_on_conflict
+	): app_extrinsics
+
+	"""
+	insert data into the table: "app.logs"
+	"""
+	insert_app_logs(
+		"""
+		the rows to be inserted
+		"""
+		objects: [app_logs_insert_input!]!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app_logs_on_conflict
+	): app_logs_mutation_response
+
+	"""
+	insert a single row into the table: "app.logs"
+	"""
+	insert_app_logs_one(
+		"""
+		the row to be inserted
+		"""
+		object: app_logs_insert_input!
+
+		"""
+		upsert condition
+		"""
+		on_conflict: app_logs_on_conflict
+	): app_logs
+
+	"""
+	update data of the table: "app._metadata"
+	"""
+	update_app__metadata(
+		"""
+		append existing jsonb value of filtered columns with new jsonb value
+		"""
+		_append: app__metadata_append_input
+
+		"""
+		delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+		"""
+		_delete_at_path: app__metadata_delete_at_path_input
+
+		"""
+		delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+		"""
+		_delete_elem: app__metadata_delete_elem_input
+
+		"""
+		delete key/value pair or string element. key/value pairs are matched based on their key value
+		"""
+		_delete_key: app__metadata_delete_key_input
+
+		"""
+		prepend existing jsonb value of filtered columns with new jsonb value
+		"""
+		_prepend: app__metadata_prepend_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app__metadata_set_input
+
+		"""
+		filter the rows which have to be updated
+		"""
+		where: app__metadata_bool_exp!
+	): app__metadata_mutation_response
+
+	"""
+	update single row of the table: "app._metadata"
+	"""
+	update_app__metadata_by_pk(
+		"""
+		append existing jsonb value of filtered columns with new jsonb value
+		"""
+		_append: app__metadata_append_input
+
+		"""
+		delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+		"""
+		_delete_at_path: app__metadata_delete_at_path_input
+
+		"""
+		delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+		"""
+		_delete_elem: app__metadata_delete_elem_input
+
+		"""
+		delete key/value pair or string element. key/value pairs are matched based on their key value
+		"""
+		_delete_key: app__metadata_delete_key_input
+
+		"""
+		prepend existing jsonb value of filtered columns with new jsonb value
+		"""
+		_prepend: app__metadata_prepend_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app__metadata_set_input
+		pk_columns: app__metadata_pk_columns_input!
+	): app__metadata
+
+	"""
+	update multiples rows of table: "app._metadata"
+	"""
+	update_app__metadata_many(
+		"""
+		updates to execute, in order
+		"""
+		updates: [app__metadata_updates!]!
+	): [app__metadata_mutation_response]
+
+	"""
+	update data of the table: "app.blocks"
+	"""
+	update_app_blocks(
+		"""
+		increments the numeric columns with given value of the filtered values
+		"""
+		_inc: app_blocks_inc_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app_blocks_set_input
+
+		"""
+		filter the rows which have to be updated
+		"""
+		where: app_blocks_bool_exp!
+	): app_blocks_mutation_response
+
+	"""
+	update single row of the table: "app.blocks"
+	"""
+	update_app_blocks_by_pk(
+		"""
+		increments the numeric columns with given value of the filtered values
+		"""
+		_inc: app_blocks_inc_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app_blocks_set_input
+		pk_columns: app_blocks_pk_columns_input!
+	): app_blocks
+
+	"""
+	update multiples rows of table: "app.blocks"
+	"""
+	update_app_blocks_many(
+		"""
+		updates to execute, in order
+		"""
+		updates: [app_blocks_updates!]!
+	): [app_blocks_mutation_response]
+
+	"""
+	update data of the table: "app.events"
+	"""
+	update_app_events(
+		"""
+		append existing jsonb value of filtered columns with new jsonb value
+		"""
+		_append: app_events_append_input
+
+		"""
+		delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+		"""
+		_delete_at_path: app_events_delete_at_path_input
+
+		"""
+		delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+		"""
+		_delete_elem: app_events_delete_elem_input
+
+		"""
+		delete key/value pair or string element. key/value pairs are matched based on their key value
+		"""
+		_delete_key: app_events_delete_key_input
+
+		"""
+		increments the numeric columns with given value of the filtered values
+		"""
+		_inc: app_events_inc_input
+
+		"""
+		prepend existing jsonb value of filtered columns with new jsonb value
+		"""
+		_prepend: app_events_prepend_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app_events_set_input
+
+		"""
+		filter the rows which have to be updated
+		"""
+		where: app_events_bool_exp!
+	): app_events_mutation_response
+
+	"""
+	update single row of the table: "app.events"
+	"""
+	update_app_events_by_pk(
+		"""
+		append existing jsonb value of filtered columns with new jsonb value
+		"""
+		_append: app_events_append_input
+
+		"""
+		delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+		"""
+		_delete_at_path: app_events_delete_at_path_input
+
+		"""
+		delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+		"""
+		_delete_elem: app_events_delete_elem_input
+
+		"""
+		delete key/value pair or string element. key/value pairs are matched based on their key value
+		"""
+		_delete_key: app_events_delete_key_input
+
+		"""
+		increments the numeric columns with given value of the filtered values
+		"""
+		_inc: app_events_inc_input
+
+		"""
+		prepend existing jsonb value of filtered columns with new jsonb value
+		"""
+		_prepend: app_events_prepend_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app_events_set_input
+		pk_columns: app_events_pk_columns_input!
+	): app_events
+
+	"""
+	update multiples rows of table: "app.events"
+	"""
+	update_app_events_many(
+		"""
+		updates to execute, in order
+		"""
+		updates: [app_events_updates!]!
+	): [app_events_mutation_response]
+
+	"""
+	update data of the table: "app.extrinsics"
+	"""
+	update_app_extrinsics(
+		"""
+		append existing jsonb value of filtered columns with new jsonb value
+		"""
+		_append: app_extrinsics_append_input
+
+		"""
+		delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+		"""
+		_delete_at_path: app_extrinsics_delete_at_path_input
+
+		"""
+		delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+		"""
+		_delete_elem: app_extrinsics_delete_elem_input
+
+		"""
+		delete key/value pair or string element. key/value pairs are matched based on their key value
+		"""
+		_delete_key: app_extrinsics_delete_key_input
+
+		"""
+		increments the numeric columns with given value of the filtered values
+		"""
+		_inc: app_extrinsics_inc_input
+
+		"""
+		prepend existing jsonb value of filtered columns with new jsonb value
+		"""
+		_prepend: app_extrinsics_prepend_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app_extrinsics_set_input
+
+		"""
+		filter the rows which have to be updated
+		"""
+		where: app_extrinsics_bool_exp!
+	): app_extrinsics_mutation_response
+
+	"""
+	update single row of the table: "app.extrinsics"
+	"""
+	update_app_extrinsics_by_pk(
+		"""
+		append existing jsonb value of filtered columns with new jsonb value
+		"""
+		_append: app_extrinsics_append_input
+
+		"""
+		delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+		"""
+		_delete_at_path: app_extrinsics_delete_at_path_input
+
+		"""
+		delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+		"""
+		_delete_elem: app_extrinsics_delete_elem_input
+
+		"""
+		delete key/value pair or string element. key/value pairs are matched based on their key value
+		"""
+		_delete_key: app_extrinsics_delete_key_input
+
+		"""
+		increments the numeric columns with given value of the filtered values
+		"""
+		_inc: app_extrinsics_inc_input
+
+		"""
+		prepend existing jsonb value of filtered columns with new jsonb value
+		"""
+		_prepend: app_extrinsics_prepend_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app_extrinsics_set_input
+		pk_columns: app_extrinsics_pk_columns_input!
+	): app_extrinsics
+
+	"""
+	update multiples rows of table: "app.extrinsics"
+	"""
+	update_app_extrinsics_many(
+		"""
+		updates to execute, in order
+		"""
+		updates: [app_extrinsics_updates!]!
+	): [app_extrinsics_mutation_response]
+
+	"""
+	update data of the table: "app.logs"
+	"""
+	update_app_logs(
+		"""
+		increments the numeric columns with given value of the filtered values
+		"""
+		_inc: app_logs_inc_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app_logs_set_input
+
+		"""
+		filter the rows which have to be updated
+		"""
+		where: app_logs_bool_exp!
+	): app_logs_mutation_response
+
+	"""
+	update single row of the table: "app.logs"
+	"""
+	update_app_logs_by_pk(
+		"""
+		increments the numeric columns with given value of the filtered values
+		"""
+		_inc: app_logs_inc_input
+
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: app_logs_set_input
+		pk_columns: app_logs_pk_columns_input!
+	): app_logs
+
+	"""
+	update multiples rows of table: "app.logs"
+	"""
+	update_app_logs_many(
+		"""
+		updates to execute, in order
+		"""
+		updates: [app_logs_updates!]!
+	): [app_logs_mutation_response]
+}
+
+"""
+column ordering options
+"""
+enum order_by {
+	"""
+	in ascending order, nulls last
+	"""
+	asc
+
+	"""
+	in ascending order, nulls first
+	"""
+	asc_nulls_first
+
+	"""
+	in ascending order, nulls last
+	"""
+	asc_nulls_last
+
+	"""
+	in descending order, nulls first
+	"""
+	desc
+
+	"""
+	in descending order, nulls first
+	"""
+	desc_nulls_first
+
+	"""
+	in descending order, nulls last
+	"""
+	desc_nulls_last
+}
+
+type query_root {
+	"""
+	fetch data from the table: "app._metadata"
+	"""
+	app__metadata(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app__metadata_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app__metadata_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app__metadata_bool_exp
+	): [app__metadata!]!
+
+	"""
+	fetch aggregated fields from the table: "app._metadata"
+	"""
+	app__metadata_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app__metadata_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app__metadata_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app__metadata_bool_exp
+	): app__metadata_aggregate!
+
+	"""
+	fetch data from the table: "app._metadata" using primary key columns
+	"""
+	app__metadata_by_pk(key: String!): app__metadata
+
+	"""
+	fetch data from the table: "app.blocks"
+	"""
+	app_blocks(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_blocks_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_blocks_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_blocks_bool_exp
+	): [app_blocks!]!
+
+	"""
+	fetch aggregated fields from the table: "app.blocks"
+	"""
+	app_blocks_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_blocks_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_blocks_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_blocks_bool_exp
+	): app_blocks_aggregate!
+
+	"""
+	fetch data from the table: "app.blocks" using primary key columns
+	"""
+	app_blocks_by_pk(id: String!): app_blocks
+
+	"""
+	fetch data from the table: "app.events"
+	"""
+	app_events(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_events_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_events_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_events_bool_exp
+	): [app_events!]!
+
+	"""
+	fetch aggregated fields from the table: "app.events"
+	"""
+	app_events_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_events_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_events_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_events_bool_exp
+	): app_events_aggregate!
+
+	"""
+	fetch data from the table: "app.events" using primary key columns
+	"""
+	app_events_by_pk(id: String!): app_events
+
+	"""
+	fetch data from the table: "app.extrinsics"
+	"""
+	app_extrinsics(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_extrinsics_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_extrinsics_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_extrinsics_bool_exp
+	): [app_extrinsics!]!
+
+	"""
+	fetch aggregated fields from the table: "app.extrinsics"
+	"""
+	app_extrinsics_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_extrinsics_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_extrinsics_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_extrinsics_bool_exp
+	): app_extrinsics_aggregate!
+
+	"""
+	fetch data from the table: "app.extrinsics" using primary key columns
+	"""
+	app_extrinsics_by_pk(id: String!): app_extrinsics
+
+	"""
+	fetch data from the table: "app.logs"
+	"""
+	app_logs(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_logs_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_logs_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_logs_bool_exp
+	): [app_logs!]!
+
+	"""
+	fetch aggregated fields from the table: "app.logs"
+	"""
+	app_logs_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_logs_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_logs_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_logs_bool_exp
+	): app_logs_aggregate!
+
+	"""
+	fetch data from the table: "app.logs" using primary key columns
+	"""
+	app_logs_by_pk(id: String!): app_logs
+}
+
+type subscription_root {
+	"""
+	fetch data from the table: "app._metadata"
+	"""
+	app__metadata(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app__metadata_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app__metadata_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app__metadata_bool_exp
+	): [app__metadata!]!
+
+	"""
+	fetch aggregated fields from the table: "app._metadata"
+	"""
+	app__metadata_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app__metadata_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app__metadata_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app__metadata_bool_exp
+	): app__metadata_aggregate!
+
+	"""
+	fetch data from the table: "app._metadata" using primary key columns
+	"""
+	app__metadata_by_pk(key: String!): app__metadata
+
+	"""
+	fetch data from the table: "app.blocks"
+	"""
+	app_blocks(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_blocks_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_blocks_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_blocks_bool_exp
+	): [app_blocks!]!
+
+	"""
+	fetch aggregated fields from the table: "app.blocks"
+	"""
+	app_blocks_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_blocks_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_blocks_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_blocks_bool_exp
+	): app_blocks_aggregate!
+
+	"""
+	fetch data from the table: "app.blocks" using primary key columns
+	"""
+	app_blocks_by_pk(id: String!): app_blocks
+
+	"""
+	fetch data from the table: "app.events"
+	"""
+	app_events(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_events_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_events_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_events_bool_exp
+	): [app_events!]!
+
+	"""
+	fetch aggregated fields from the table: "app.events"
+	"""
+	app_events_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_events_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_events_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_events_bool_exp
+	): app_events_aggregate!
+
+	"""
+	fetch data from the table: "app.events" using primary key columns
+	"""
+	app_events_by_pk(id: String!): app_events
+
+	"""
+	fetch data from the table: "app.extrinsics"
+	"""
+	app_extrinsics(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_extrinsics_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_extrinsics_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_extrinsics_bool_exp
+	): [app_extrinsics!]!
+
+	"""
+	fetch aggregated fields from the table: "app.extrinsics"
+	"""
+	app_extrinsics_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_extrinsics_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_extrinsics_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_extrinsics_bool_exp
+	): app_extrinsics_aggregate!
+
+	"""
+	fetch data from the table: "app.extrinsics" using primary key columns
+	"""
+	app_extrinsics_by_pk(id: String!): app_extrinsics
+
+	"""
+	fetch data from the table: "app.logs"
+	"""
+	app_logs(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_logs_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_logs_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_logs_bool_exp
+	): [app_logs!]!
+
+	"""
+	fetch aggregated fields from the table: "app.logs"
+	"""
+	app_logs_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [app_logs_select_column!]
+
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [app_logs_order_by!]
+
+		"""
+		filter the rows returned
+		"""
+		where: app_logs_bool_exp
+	): app_logs_aggregate!
+
+	"""
+	fetch data from the table: "app.logs" using primary key columns
+	"""
+	app_logs_by_pk(id: String!): app_logs
+}
+
+scalar timestamp
+
+"""
+Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'.
+"""
+input timestamp_comparison_exp {
+	_eq: timestamp
+	_gt: timestamp
+	_gte: timestamp
+	_in: [timestamp!]
+	_is_null: Boolean
+	_lt: timestamp
+	_lte: timestamp
+	_neq: timestamp
+	_nin: [timestamp!]
+}
+
+scalar timestamptz
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+	_eq: timestamptz
+	_gt: timestamptz
+	_gte: timestamptz
+	_in: [timestamptz!]
+	_is_null: Boolean
+	_lt: timestamptz
+	_lte: timestamptz
+	_neq: timestamptz
+	_nin: [timestamptz!]
+}

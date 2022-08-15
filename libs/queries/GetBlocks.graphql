@@ -1,16 +1,12 @@
 query GetBlocks {
-	blocks(orderBy: NUMBER_DESC, first: 20) {
-		nodes {
-			id
-			number
-			timestamp
-			parentHash
-			extrinsics {
-				edges {
-					node {
-						id
-					}
-				}
+	app_blocks(limit: 20, order_by: { created_at: desc }) {
+		id
+		hash
+		parent_hash
+		created_at
+		extrinsics_aggregate {
+			aggregate {
+				count
 			}
 		}
 	}

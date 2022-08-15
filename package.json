@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "prettier --config .prettierrc.json ./ --write",
     "gen": "graphql-codegen --config codegen.yml",
-    "format": "prettier --config .prettierrc.json ./ --write"
+    "schema": "gq $GRAPHQL_ENDPOINT -H \"X-Hasura-Admin-Secret: $HASURA_SECRET\" --introspect > libs/schema.graphql"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.0.10",
