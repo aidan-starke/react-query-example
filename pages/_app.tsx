@@ -3,13 +3,13 @@ import type { AppProps } from "next/app";
 import { QueryClientProvider, Hydrate } from "@tanstack/react-query";
 
 import { queryClient } from "@/libs/client";
-import { useTheme } from "@/libs/hooks";
 import clsx from "clsx";
 import { ThemeSwitch } from "@/libs/components";
 import Head from "next/head";
+import { useTheme } from "@/libs/hooks";
 
 function MyApp({ Component, pageProps }: AppProps) {
-	const isDarkMode = useTheme((state) => state.theme === "Dark");
+	const { isDarkMode } = useTheme();
 
 	return (
 		<QueryClientProvider client={queryClient}>

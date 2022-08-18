@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { getDistance } from "@/libs/utils";
-import { useTheme } from "@/libs/hooks";
 import { Layout } from "@/libs/components";
 import clsx from "clsx";
+import { useTheme } from "@/libs/hooks";
 
 interface ExtrinsicSimpleProps {
 	id?: string;
@@ -19,7 +19,7 @@ export const ExtrinsicSimple: FC<ExtrinsicSimpleProps> = ({
 	timestamp,
 	eventsCount,
 }) => {
-	const isDarkMode = useTheme((state) => state.theme === "Dark");
+	const { isDarkMode } = useTheme();
 
 	return (
 		<Layout.TableWrapper>

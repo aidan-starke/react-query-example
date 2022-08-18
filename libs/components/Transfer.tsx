@@ -1,9 +1,9 @@
 import { FC, useMemo } from "react";
 import { utils as ethers } from "ethers";
 import { getDistance } from "@/libs/utils";
-import { useTheme } from "@/libs/hooks";
 import { Layout } from "@/libs/components";
 import clsx from "clsx";
+import { useTheme } from "@/libs/hooks";
 
 interface TransferProps {
 	timestamp?: string | null;
@@ -28,7 +28,7 @@ export const Transfer: FC<TransferProps> = ({
 
 		return 0;
 	}, [amount, token]);
-	const isDarkMode = useTheme((state) => state.theme === "Dark");
+	const { isDarkMode } = useTheme();
 
 	return (
 		<Layout.TableWrapper>

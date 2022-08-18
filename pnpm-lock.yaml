@@ -21,6 +21,7 @@ specifiers:
   flowbite-react: ^0.1.5
   graphql: ^16.5.0
   graphql-request: ^4.3.0
+  jotai: ^1.7.8
   next: 12.2.3
   postcss: ^8.4.14
   prettier: ^2.7.1
@@ -30,7 +31,6 @@ specifiers:
   react-json-pretty: ^2.2.0
   tailwindcss: ^3.1.7
   typescript: 4.7.4
-  zustand: ^4.0.0
 
 dependencies:
   '@tanstack/react-query': 4.0.10_biqbaboplfbrettd7655fr4n2y
@@ -41,11 +41,11 @@ dependencies:
   flowbite: 1.5.2
   flowbite-react: 0.1.5_2yqabodkis7rgnew4bnj6aawhu
   graphql: 16.5.0
+  jotai: 1.7.8_byq7oc57qftat37gkdlgphtura
   next: 12.2.3_twoewwu6sg7cdf3ao6njtbftne
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-json-pretty: 2.2.0_biqbaboplfbrettd7655fr4n2y
-  zustand: 4.0.0_react@18.2.0
 
 devDependencies:
   '@graphql-codegen/cli': 2.11.3_nzetnscdzbriw2j3xvvpc2oxvq
@@ -63,7 +63,7 @@ devDependencies:
   postcss: 8.4.14
   prettier: 2.7.1
   prettier-plugin-tailwindcss: 0.1.13_prettier@2.7.1
-  tailwindcss: 3.1.7_ts-node@10.9.1
+  tailwindcss: 3.1.7_pe6iykxod2v7i2uk6okjazxzki
   typescript: 4.7.4
 
 packages:
@@ -681,7 +681,7 @@ packages:
       '@types/node': 18.6.3
       chalk: 4.1.2
       cosmiconfig: 7.0.1
-      cosmiconfig-typescript-loader: 2.0.2_e2tlcjkk7tlngjdlhzx5hjlnv4
+      cosmiconfig-typescript-loader: 2.0.2_thlsux2zdr7dvznnmqco75np2i
       lodash: 4.17.21
       resolve-from: 5.0.0
       typescript: 4.7.4
@@ -1781,7 +1781,7 @@ packages:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
-      tailwindcss: 3.1.7_ts-node@10.9.1
+      tailwindcss: 3.1.7_pe6iykxod2v7i2uk6okjazxzki
     dev: true
 
   /@tanstack/query-core/4.0.10:
@@ -2562,11 +2562,12 @@ packages:
       '@iarna/toml': 2.2.5
     dev: true
 
-  /cosmiconfig-typescript-loader/2.0.2_e2tlcjkk7tlngjdlhzx5hjlnv4:
+  /cosmiconfig-typescript-loader/2.0.2_thlsux2zdr7dvznnmqco75np2i:
     resolution: {integrity: sha512-KmE+bMjWMXJbkWCeY4FJX/npHuZPNr9XF9q9CIQ/bpFwi1qHfCmSiKarrCcRa0LO4fWjk93pVoeRtJAkTGcYNw==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@types/node': '*'
+      cosmiconfig: '>=7'
       typescript: '>=3'
     dependencies:
       '@types/node': 18.6.3
@@ -3392,7 +3393,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       react-icons: 4.4.0_react@18.2.0
       react-indiana-drag-scroll: 2.2.0_biqbaboplfbrettd7655fr4n2y
-      tailwindcss: 3.1.7_ts-node@10.9.1
+      tailwindcss: 3.1.7_pe6iykxod2v7i2uk6okjazxzki
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -4002,6 +4003,44 @@ packages:
     dependencies:
       ws: 8.8.1
     dev: true
+
+  /jotai/1.7.8_byq7oc57qftat37gkdlgphtura:
+    resolution: {integrity: sha512-rXwWz6uLqyZUCRzWIPiYTjI1hjskVxVpDN3lBoOHi66z6uQFkFmKwR8YhcQd+Ex4lODlReuKNIx6WwsF9aKy3g==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      '@tanstack/query-core': '*'
+      '@urql/core': '*'
+      immer: '*'
+      optics-ts: '*'
+      react: '>=16.8'
+      valtio: '*'
+      wonka: '*'
+      xstate: '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      '@tanstack/query-core':
+        optional: true
+      '@urql/core':
+        optional: true
+      immer:
+        optional: true
+      optics-ts:
+        optional: true
+      valtio:
+        optional: true
+      wonka:
+        optional: true
+      xstate:
+        optional: true
+    dependencies:
+      '@babel/core': 7.18.10
+      react: 18.2.0
+    dev: false
 
   /js-sha3/0.8.0:
     resolution: {integrity: sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==}
@@ -5291,10 +5330,12 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /tailwindcss/3.1.7_ts-node@10.9.1:
+  /tailwindcss/3.1.7_pe6iykxod2v7i2uk6okjazxzki:
     resolution: {integrity: sha512-r7mgumZ3k0InfVPpGWcX8X/Ut4xBfv+1O/+C73ar/m01LxGVzWvPxF/w6xIUPEztrCoz7axfx0SMdh8FH8ZvRQ==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -5727,19 +5768,3 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  /zustand/4.0.0_react@18.2.0:
-    resolution: {integrity: sha512-OrsfQTnRXF1LZ9/vR/IqN9ws5EXUhb149xmPjErZnUrkgxS/gAHGy2dPNIVkVvoxrVe1sIydn4JjF0dYHmGeeQ==}
-    engines: {node: '>=12.7.0'}
-    peerDependencies:
-      immer: '>=9.0'
-      react: '>=16.8'
-    peerDependenciesMeta:
-      immer:
-        optional: true
-      react:
-        optional: true
-    dependencies:
-      react: 18.2.0
-      use-sync-external-store: 1.2.0_react@18.2.0
-    dev: false

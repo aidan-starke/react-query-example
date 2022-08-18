@@ -8,7 +8,7 @@ interface TableRowProps {
 }
 
 const TableRow: FC<TableRowProps> = ({ children, rowClassName }) => {
-	const isDarkMode = useTheme((state) => state.theme === "Dark");
+	const { isDarkMode } = useTheme();
 
 	return (
 		<div
@@ -34,7 +34,7 @@ const TableWrapper: FC<TableWrapperProps> = ({
 	children,
 	wrapperClassName,
 }) => {
-	const isDarkMode = useTheme((state) => state.theme === "Dark");
+	const { isDarkMode } = useTheme();
 
 	return (
 		<div

@@ -1,25 +1,14 @@
-import create, { StateCreator } from "zustand";
+import { useAtom } from "jotai";
+import { themeStateAtom } from "@/libs/stores";
 
-import { devtools, persist } from "zustand/middleware";
+export const useTheme = () => {
+	const [currentTheme, setCurrentTheme] = useAtom(themeStateAtom);
+	const isDarkMode = currentTheme === "Dark";
+	const toggleTheme = () => setCurrentTheme(isDarkMode ? "Light" : "Dark");
 
-interface ThemeState {
-	theme: "Light" | "Dark";
-	toggleTheme: () => void;
-}
-
-type ThemeStore = StateCreator<
-	ThemeState,
-	[["zustand/devtools", never], ["zustand/persist", unknown]]
->;
-
-const themeStore: ThemeStore = (set) => ({
-	theme: "Light",
-	toggleTheme: () =>
-		set((state) => ({
-			theme: state.theme === "Light" ? "Dark" : "Light",
-		})),
-});
-
-export const useTheme = create(
-	devtools(persist(themeStore, { name: "colour-theme" }))
-);
+	return {
+		currentTheme,
+		isDarkMode,
+		toggleTheme,
+	};
+};

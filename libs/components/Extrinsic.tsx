@@ -2,9 +2,9 @@ import { getDistance } from "@/libs/utils";
 import { FC, useState } from "react";
 import JSONPretty from "react-json-pretty";
 import clsx from "clsx";
-import { useTheme } from "@/libs/hooks";
 import { Extrinsic as ExtrinsicInterface } from "@/libs/types";
 import { GetExtrinsicByIdQuery } from "@/libs/api/generated";
+import { useTheme } from "@/libs/hooks";
 
 interface ExtrinsicProps {
 	extrinsic: ExtrinsicInterface | GetExtrinsicByIdQuery["app_extrinsics_by_pk"];
@@ -13,7 +13,7 @@ interface ExtrinsicProps {
 
 export const Extrinsic: FC<ExtrinsicProps> = ({ extrinsic, eventsCount }) => {
 	const [viewArgs, setViewArgs] = useState<boolean>(false);
-	const isDarkMode = useTheme((state) => state.theme === "Dark");
+	const { isDarkMode } = useTheme();
 
 	return (
 		<>
