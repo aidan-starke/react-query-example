@@ -33,7 +33,7 @@ interface BlockProps {
 }
 
 const Block: NextPage<BlockProps> = ({ block, extrinsics }) => {
-	const isDarkMode = useTheme((state) => state.theme === "Dark");
+	const { isDarkMode } = useTheme();
 
 	return (
 		<div className="h-screen p-8 m-auto space-y-4 max-h-[89vh]">

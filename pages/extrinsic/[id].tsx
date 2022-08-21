@@ -34,7 +34,7 @@ interface ExtrinsicProps {
 }
 
 const Extrinsic: NextPage<ExtrinsicProps> = ({ id, extrinsic }) => {
-	const isDarkMode = useTheme((state) => state.theme === "Dark");
+	const { isDarkMode } = useTheme();
 
 	return (
 		<div className="h-screen p-8 m-auto space-y-4 max-h-[90vh]">
