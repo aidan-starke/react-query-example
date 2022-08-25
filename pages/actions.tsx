@@ -52,7 +52,7 @@ const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 
 			updateState("blockData", data.GetFullBlock);
 		},
-		[blockNumber]
+		[blockNumber, updateState]
 	);
 
 	return (
