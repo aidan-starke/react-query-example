@@ -84,7 +84,13 @@ const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 
 			await getFullBlockAction();
 		},
-		[formInput, updateState, isBlockHash]
+		[
+			formInput,
+			updateState,
+			isBlockHash,
+			getFullBlockAction,
+			getBlockWithValidatorAction,
+		]
 	);
 
 	const loadingText = useMemo<string>(() => {

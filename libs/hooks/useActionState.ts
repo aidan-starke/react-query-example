@@ -23,7 +23,7 @@ const actionStore: ActionStore = (set) => ({
 	updateState: <T>(key: string, data: T) =>
 		set((state) => ({ ...state, [key]: data })),
 	overrideState: <T>(key: string, data: T) =>
-		set((state) => ({ ...initialState, [key]: data })),
+		set(() => ({ ...initialState, [key]: data })),
 });
 
 export const useActionState = create(actionStore);
