@@ -1,6 +1,9 @@
+import { ApiPromise } from "@polkadot/api";
 import { NextApiRequest, NextApiResponse } from "next";
 import { execute, getApiInstance } from "@/libs/utils";
 import { API_ENDPOINT, GET_FULL_BLOCK } from "@/libs/constants";
+
+let api: ApiPromise;
 
 export default async function getFullBlock(
 	req: NextApiRequest,
@@ -14,7 +17,7 @@ export default async function getFullBlock(
 		});
 		if (errors) throw errors[0];
 
-		const api = await getApiInstance(API_ENDPOINT);
+		if (!api) api = await getApiInstance(API_ENDPOINT);
 		const header = await api.derive.chain.getHeader(data.app_blocks_by_pk.hash);
 
 		return res.json({
