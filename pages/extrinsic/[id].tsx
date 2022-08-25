@@ -7,8 +7,6 @@ import {
 import { useTheme } from "@/libs/hooks";
 import clsx from "clsx";
 import { Layout } from "@/libs/components";
-import JSONPretty from "react-json-pretty";
-import { getDistance } from "@/libs/utils";
 import { Extrinsic as ExtrinsicRow } from "@/libs/components";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

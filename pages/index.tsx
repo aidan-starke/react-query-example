@@ -12,7 +12,7 @@ import { usePolling } from "@/libs/hooks";
 import { Block, ExtrinsicSimple } from "@/libs/components";
 import { queryClient } from "@/libs/client";
 import { dehydrate } from "@tanstack/react-query";
-import { prefetch } from "@/libs/utils/prefetch";
+import { prefetch } from "@/libs/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
 	await prefetch("GetBlocks", GetBlocksDocument);
