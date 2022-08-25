@@ -2608,7 +2608,7 @@ export const useGetBlockByIdQuery = <
 	);
 export const GetBlocksDocument = `
     query GetBlocks {
-  app_blocks(limit: 20, order_by: {created_at: desc}) {
+  app_blocks(limit: 20, order_by: {id: desc}) {
     id
     hash
     parent_hash

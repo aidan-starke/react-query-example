@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 	return {
 		props: {
-			initialBlock: blocks[blocks.length - 1].id,
+			initialBlock: blocks[0].id,
 		},
 	};
 };
@@ -105,7 +105,7 @@ const useLatestBlock = (initialBlock: number) => {
 	);
 
 	return useMemo<string | number>(
-		() => (blocks ? blocks[blocks.length - 1].id : initialBlock),
+		() => (blocks ? blocks[0].id : initialBlock),
 		[blocks, initialBlock]
 	);
 };
