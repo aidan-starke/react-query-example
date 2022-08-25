@@ -1,6 +1,6 @@
 export const GET_BLOCK_WITH_VALIDATOR = `
-query GetBlockWithValidator($blockHash: String!) {
-  app_blocks(where: {hash: {_eq: $blockHash}}) {
+query GetBlockWithValidatorAction($blockHash: String!) {
+  GetBlockWithValidator(blockHash: $blockHash) {
     id
     hash
     created_at

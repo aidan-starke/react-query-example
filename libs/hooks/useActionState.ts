@@ -1,20 +1,20 @@
 import create, { StateCreator } from "zustand";
 
 interface ActionState {
-	error?: string;
+	error: string;
 	loading: boolean;
-	blockData?: Record<string, unknown>;
-	blockNumber?: string;
+	blockData: Record<string, unknown>;
+	formInput: string;
 	updateState: <T>(key: string, data: T) => void;
 }
 
 type ActionStore = StateCreator<ActionState>;
 
 const initialState = {
-	error: undefined,
+	error: "",
 	loading: false,
-	blockData: undefined,
-	blockNumber: undefined,
+	blockData: {},
+	formInput: "",
 };
 
 const actionStore: ActionStore = (set) => ({

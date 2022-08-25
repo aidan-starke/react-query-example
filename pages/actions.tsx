@@ -5,7 +5,10 @@ import { FormEvent, useCallback, useMemo } from "react";
 import { useActionState, usePolling, useTheme } from "@/libs/hooks";
 import JSONPretty from "react-json-pretty";
 import { execute, fetchData } from "@/libs/utils";
-import { GET_FULL_BLOCK_ACTION } from "@/libs/constants";
+import {
+	GET_BLOCK_WITH_VALIDATOR,
+	GET_FULL_BLOCK_ACTION,
+} from "@/libs/constants";
 import {
 	GetBlocksQuery,
 	GetBlocksDocument,
@@ -17,65 +20,102 @@ export const getServerSideProps: GetServerSideProps = async () => {
 		GetBlocksDocument
 	)) as GetBlocksQuery;
 
+	const { id, hash } = blocks[0];
+
 	return {
 		props: {
-			initialBlock: blocks[0].id,
+			initialBlock: {
+				id,
+				hash,
+			},
 		},
 	};
 };
 
+interface LatestBlock {
+	id: string;
+	hash: string;
+}
+
 interface ActionsProps {
-	initialBlock: number;
+	initialBlock: LatestBlock;
 }
 
 const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 	const latestBlock = useLatestBlock(initialBlock);
 	const isDarkMode = useTheme((state) => state.theme === "Dark");
-	const { error, loading, blockData, blockNumber, updateState } =
+	const { error, loading, blockData, formInput, updateState } =
 		useActionState();
+
+	const isBlockHash = formInput.startsWith("0x");
+
+	const getFullBlockAction = useCallback(async () => {
+		const { data, errors } = await execute(GET_FULL_BLOCK_ACTION, {
+			id: formInput,
+		});
+		updateState("loading", false);
+
+		if (errors) return updateState("error", errors[0].message);
+
+		updateState("blockData", data.GetFullBlock);
+	}, [formInput, updateState]);
+
+	const getBlockWithValidatorAction = useCallback(async () => {
+		const { data, errors } = await execute(GET_BLOCK_WITH_VALIDATOR, {
+			blockHash: formInput,
+		});
+		updateState("loading", false);
+
+		if (errors) return updateState("error", errors[0].message);
+
+		console.log(data);
+
+		updateState("blockData", data.app_blocks[0]);
+	}, [formInput, updateState]);
 
 	const onFormSubmit = useCallback(
 		async (e: FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-			if (!blockNumber)
-				return updateState("error", "Please enter a block number");
+			if (!formInput)
+				return updateState("error", "Please enter a block hash or number");
 
 			updateState("loading", true);
 			updateState("error", undefined);
 
-			const { data, errors } = await execute(GET_FULL_BLOCK_ACTION, {
-				id: blockNumber,
-			});
-			updateState("loading", false);
+			if (isBlockHash) return await getBlockWithValidatorAction();
 
-			if (errors) return updateState("error", errors[0].message);
-
-			updateState("blockData", data.GetFullBlock);
+			await getFullBlockAction();
 		},
-		[blockNumber, updateState]
+		[formInput, updateState, isBlockHash]
 	);
+
+	const loadingText = useMemo<string>(() => {
+		if (!loading) return isBlockHash ? "Fetch Validator" : "Fetch Block";
+
+		return "Fetching...";
+	}, [loading, isBlockHash]);
 
 	return (
 		<div className="p-8 w-screen h-screen">
 			<div className="w-2/3 m-auto">
-				<h1 className="text-lg tracking-wide text-center mb-4">
-					Latest Block: {latestBlock}
-				</h1>
+				<h1 className="text-lg tracking-wide text-center">Latest Block</h1>
+				<p className="text-center"># {latestBlock.id}</p>
+				<p className="text-center mb-4">{latestBlock.hash}</p>
 				<form
 					onSubmit={onFormSubmit}
 					className="w-1/3 justify-center space-y-2 p-4 m-auto mb-6"
 				>
 					<fieldset className="p-4">
-						<label htmlFor="blockNumber">Block Number</label>
+						<label htmlFor="formInput">Block Number / Hash</label>
 						<input
 							className={clsx(
 								"border rounded border-gray-500 shadow w-full outline-none p-2",
 								isDarkMode && "bg-gray-300 text-gray-600"
 							)}
-							id="blockNumber"
-							type="number"
-							value={blockNumber}
-							onChange={(e) => updateState("blockNumber", e.target.value)}
+							id="formInput"
+							type="text"
+							value={formInput}
+							onChange={(e) => updateState("formInput", e.target.value)}
 						/>
 					</fieldset>
 					<button
@@ -86,7 +126,7 @@ const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 						)}
 						disabled={loading}
 					>
-						{loading ? "Fetching..." : "Fetch Block"}
+						{loadingText}
 					</button>
 				</form>
 				{error && <div>{error}</div>}
@@ -98,14 +138,17 @@ const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 
 export default Actions;
 
-const useLatestBlock = (initialBlock: number) => {
+const useLatestBlock = (initialBlock: LatestBlock) => {
 	const { app_blocks: blocks } = usePolling<GetBlocksQuery>(
 		{} as GetBlocksQuery,
 		useGetBlocksQuery
 	);
 
-	return useMemo<string | number>(
-		() => (blocks ? blocks[0].id : initialBlock),
-		[blocks, initialBlock]
-	);
+	return useMemo<LatestBlock>(() => {
+		if (!blocks) return initialBlock;
+
+		const { id, hash } = blocks[0];
+
+		return { id, hash };
+	}, [blocks, initialBlock]);
 };
