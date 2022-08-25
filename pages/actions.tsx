@@ -94,7 +94,7 @@ const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 	}, [loading, isBlockHash]);
 
 	return (
-		<div className="p-8 w-screen h-screen">
+		<div className="p-8">
 			<div className="w-2/3 m-auto">
 				<h1 className="text-lg tracking-wide text-center">Latest Block</h1>
 				<p className="text-center"># {latestBlock.id}</p>
@@ -128,7 +128,9 @@ const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 					</button>
 				</form>
 				{error && <div>{error}</div>}
-				{blockData && <JSONPretty className="text-sm" data={blockData} />}
+				{Object.keys(blockData)?.length > 0 && (
+					<JSONPretty className="text-sm" data={blockData} />
+				)}
 			</div>
 		</div>
 	);
