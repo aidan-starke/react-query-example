@@ -6,15 +6,15 @@ export default async function getFullBlock(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
-	const api = await getApiInstance(API_ENDPOINT);
 	try {
 		const { id } = req.body.input;
 
 		const { data, errors } = await execute(GET_FULL_BLOCK, {
 			id,
 		});
-		if (errors) return res.status(400).json(errors[0]);
+		if (errors) throw errors[0];
 
+		const api = await getApiInstance(API_ENDPOINT);
 		const header = await api.derive.chain.getHeader(data.app_blocks_by_pk.hash);
 
 		return res.json({
@@ -23,7 +23,7 @@ export default async function getFullBlock(
 		});
 	} catch (error: any) {
 		return res.status(400).json({
-			message: error.message,
+			message: error?.message ?? error,
 		});
 	}
 }

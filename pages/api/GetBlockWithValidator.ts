@@ -7,16 +7,15 @@ export default async function getBlockWithValidator(
 	res: NextApiResponse
 ) {
 	try {
-		const api = await getApiInstance(API_ENDPOINT);
-
 		const { blockHash } = req.body.input;
 
+		const api = await getApiInstance(API_ENDPOINT);
 		const header = await api.derive.chain.getHeader(blockHash);
 
 		const { data, errors } = await execute(GET_BLOCK_WITH_VALIDATOR, {
 			blockHash,
 		});
-		if (errors) return res.status(400).json(errors[0]);
+		if (errors) throw errors[0];
 
 		return res.json({
 			...data.app_blocks[0],
@@ -24,7 +23,7 @@ export default async function getBlockWithValidator(
 		});
 	} catch (error: any) {
 		return res.status(400).json({
-			message: error.message,
+			message: error?.message ?? error,
 		});
 	}
 }
