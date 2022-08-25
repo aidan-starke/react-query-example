@@ -44,7 +44,7 @@ interface ActionsProps {
 const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 	const latestBlock = useLatestBlock(initialBlock);
 	const isDarkMode = useTheme((state) => state.theme === "Dark");
-	const { error, loading, blockData, formInput, updateState } =
+	const { error, loading, blockData, formInput, updateState, overrideState } =
 		useActionState();
 
 	const isBlockHash = formInput.startsWith("0x");
@@ -55,10 +55,10 @@ const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 		});
 		updateState("loading", false);
 
-		if (errors) return updateState("error", errors[0].message);
+		if (errors) return overrideState("error", errors[0].message);
 
 		updateState("blockData", data.GetFullBlock);
-	}, [formInput, updateState]);
+	}, [formInput, updateState, overrideState]);
 
 	const getBlockWithValidatorAction = useCallback(async () => {
 		const { data, errors } = await execute(GET_BLOCK_WITH_VALIDATOR, {
@@ -66,12 +66,10 @@ const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 		});
 		updateState("loading", false);
 
-		if (errors) return updateState("error", errors[0].message);
-
-		console.log(data);
+		if (errors) return overrideState("error", errors[0].message);
 
 		updateState("blockData", data.app_blocks[0]);
-	}, [formInput, updateState]);
+	}, [formInput, updateState, overrideState]);
 
 	const onFormSubmit = useCallback(
 		async (e: FormEvent<HTMLFormElement>) => {
