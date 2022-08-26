@@ -68,7 +68,7 @@ const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 
 		if (errors) return overrideState("error", errors[0].message);
 
-		updateState("blockData", data.app_blocks[0]);
+		updateState("blockData", data.GetBlockWithValidator);
 	}, [formInput, updateState, overrideState]);
 
 	const onFormSubmit = useCallback(
