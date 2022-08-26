@@ -2,7 +2,12 @@ import type { GetServerSideProps, NextPage } from "next";
 
 import clsx from "clsx";
 import { FormEvent, useCallback, useMemo } from "react";
-import { useActionState, usePolling, useTheme } from "@/libs/hooks";
+import {
+	ActionState,
+	useActionState,
+	usePolling,
+	useTheme,
+} from "@/libs/hooks";
 import JSONPretty from "react-json-pretty";
 import { execute, fetchData } from "@/libs/utils";
 import {
@@ -44,54 +49,10 @@ interface ActionsProps {
 const Actions: NextPage<ActionsProps> = ({ initialBlock }) => {
 	const latestBlock = useLatestBlock(initialBlock);
 	const isDarkMode = useTheme((state) => state.theme === "Dark");
-	const { error, loading, blockData, formInput, updateState, overrideState } =
+
+	const { error, loading, blockData, formInput, updateState } =
 		useActionState();
-
-	const isBlockHash = formInput.startsWith("0x");
-
-	const getFullBlockAction = useCallback(async () => {
-		const { data, errors } = await execute(GET_FULL_BLOCK_ACTION, {
-			id: formInput,
-		});
-		updateState("loading", false);
-
-		if (errors) return overrideState("error", errors[0].message);
-
-		updateState("blockData", data.GetFullBlock);
-	}, [formInput, updateState, overrideState]);
-
-	const getBlockWithValidatorAction = useCallback(async () => {
-		const { data, errors } = await execute(GET_BLOCK_WITH_VALIDATOR, {
-			blockHash: formInput,
-		});
-		updateState("loading", false);
-
-		if (errors) return overrideState("error", errors[0].message);
-
-		updateState("blockData", data.GetBlockWithValidator);
-	}, [formInput, updateState, overrideState]);
-
-	const onFormSubmit = useCallback(
-		async (e: FormEvent<HTMLFormElement>) => {
-			e.preventDefault();
-			if (!formInput)
-				return updateState("error", "Please enter a block hash or number");
-
-			updateState("loading", true);
-			updateState("error", undefined);
-
-			if (isBlockHash) return await getBlockWithValidatorAction();
-
-			await getFullBlockAction();
-		},
-		[
-			formInput,
-			updateState,
-			isBlockHash,
-			getFullBlockAction,
-			getBlockWithValidatorAction,
-		]
-	);
+	const { isBlockHash, onFormSubmit } = useForm(useActionState());
 
 	const loadingText = useMemo<string>(() => {
 		if (!loading) return isBlockHash ? "Fetch Validator" : "Fetch Block";
@@ -157,4 +118,61 @@ const useLatestBlock = (initialBlock: LatestBlock) => {
 
 		return { id, hash };
 	}, [blocks, initialBlock]);
+};
+
+const useForm = ({
+	formInput,
+	updateState,
+	overrideState,
+}: Partial<ActionState>) => {
+	const isBlockHash = formInput?.startsWith("0x");
+
+	const getFullBlockAction = useCallback(async () => {
+		const { data, errors } = await execute(GET_FULL_BLOCK_ACTION, {
+			id: formInput,
+		});
+		updateState?.("loading", false);
+
+		if (errors) return overrideState?.("error", errors[0].message);
+
+		updateState?.("blockData", data.GetFullBlock);
+	}, [formInput, updateState, overrideState]);
+
+	const getBlockWithValidatorAction = useCallback(async () => {
+		const { data, errors } = await execute(GET_BLOCK_WITH_VALIDATOR, {
+			blockHash: formInput,
+		});
+		updateState?.("loading", false);
+
+		if (errors) return overrideState?.("error", errors[0].message);
+
+		updateState?.("blockData", data.GetBlockWithValidator);
+	}, [formInput, updateState, overrideState]);
+
+	const onFormSubmit = useCallback(
+		async (e: FormEvent<HTMLFormElement>) => {
+			e.preventDefault();
+			if (!formInput)
+				return updateState?.("error", "Please enter a block hash or number");
+
+			updateState?.("loading", true);
+			updateState?.("error", undefined);
+
+			if (isBlockHash) return await getBlockWithValidatorAction();
+
+			await getFullBlockAction();
+		},
+		[
+			formInput,
+			updateState,
+			isBlockHash,
+			getFullBlockAction,
+			getBlockWithValidatorAction,
+		]
+	);
+
+	return {
+		isBlockHash,
+		onFormSubmit,
+	};
 };

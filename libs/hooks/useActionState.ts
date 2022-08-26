@@ -1,6 +1,6 @@
 import create, { StateCreator } from "zustand";
 
-interface ActionState {
+export interface ActionState {
 	error: string;
 	loading: boolean;
 	blockData: Record<string, unknown>;
