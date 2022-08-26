@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { GetBlockByIdDocument, GetBlockByIdQuery } from "@/libs/api/generated";
 import { Extrinsic } from "@/libs/components";
-import { fetchData } from "@/libs/utils/prefetch";
+import { fetchData } from "@/libs/utils";
 import { Layout } from "@/libs/components/Layout";
 import { useTheme } from "@/libs/hooks";
 import clsx from "clsx";

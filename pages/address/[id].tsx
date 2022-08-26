@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { fetchData } from "@/libs/utils/prefetch";
+import { fetchData } from "@/libs/utils";
 import {
 	GetExtrinsicsByAccountDocument,
 	GetExtrinsicsByAccountQuery,
