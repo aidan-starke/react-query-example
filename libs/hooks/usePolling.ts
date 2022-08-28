@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-
 import { client } from "@/libs/client";
 
 export const usePolling = <T>(

@@ -5,10 +5,12 @@ import {
 	GetExtrinsicsByAccountQuery,
 	useGetExtrinsicsByAccountQuery,
 } from "@/libs/api/generated";
-import { usePolling } from "@/libs/hooks";
+import { useAtomPolling } from "@/libs/hooks";
 import { useTheme } from "@/libs/hooks";
 import clsx from "clsx";
 import { Extrinsic, Layout } from "@/libs/components";
+import { atom, useAtom } from "jotai";
+import { useHydrateAtoms } from "jotai/utils";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const address = context?.params?.id;
@@ -24,18 +26,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	};
 };
 
+const extrinsicAtom = atom<GetExtrinsicsByAccountQuery>(
+	{} as GetExtrinsicsByAccountQuery
+);
+
 interface AddressProps {
 	address: string;
 	initialExtrinsics: GetExtrinsicsByAccountQuery;
 }
 
 const Address: NextPage<AddressProps> = ({ address, initialExtrinsics }) => {
-	const { app_extrinsics: extrinsics } =
-		usePolling<GetExtrinsicsByAccountQuery>(
-			initialExtrinsics,
-			useGetExtrinsicsByAccountQuery,
-			{ account: address }
-		);
+	useHydrateAtoms([[extrinsicAtom, initialExtrinsics]] as const);
+
+	const [{ app_extrinsics: extrinsics }, setExtrinsics] =
+		useAtom(extrinsicAtom);
+	useAtomPolling(setExtrinsics, useGetExtrinsicsByAccountQuery, {
+		account: address,
+	});
+
 	const { isDarkMode } = useTheme();
 
 	return (
