@@ -11,7 +11,7 @@ import {
 import { usePolling } from "@/libs/hooks";
 import { Block, ExtrinsicSimple } from "@/libs/components";
 import { queryClient } from "@/libs/client";
-import { dehydrate } from "@tanstack/react-query";
+import { dehydrate, DehydratedState, useHydrate } from "@tanstack/react-query";
 import { prefetch } from "@/libs/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -25,9 +25,13 @@ export const getServerSideProps: GetServerSideProps = async () => {
 	};
 };
 
-interface HomeProps {}
+interface HomeProps {
+	dehydratedState: DehydratedState;
+}
 
-const Home: NextPage<HomeProps> = () => {
+const Home: NextPage<HomeProps> = ({ dehydratedState }) => {
+	useHydrate(dehydratedState);
+
 	const { app_blocks: blocks } = usePolling<GetBlocksQuery>(
 		{} as GetBlocksQuery,
 		useGetBlocksQuery
@@ -39,10 +43,7 @@ const Home: NextPage<HomeProps> = () => {
 
 	return (
 		<div className="h-screen p-8 m-auto grid grid-cols-2 gap-4 max-h-[95vh]">
-			<div
-				className="border-2 rounded h-full overflow-y-auto p-2"
-				suppressHydrationWarning
-			>
+			<div className="border-2 rounded h-full overflow-y-auto p-2">
 				<h1 className="text-xl font-mono p-4">Latest Blocks</h1>
 				{blocks?.map((block) => (
 					<Block
@@ -55,10 +56,7 @@ const Home: NextPage<HomeProps> = () => {
 					/>
 				))}
 			</div>
-			<div
-				className="border-2 rounded h-full overflow-y-auto p-2"
-				suppressHydrationWarning
-			>
+			<div className="border-2 rounded h-full overflow-y-auto p-2">
 				<h1 className="text-xl font-mono p-4">Latest Extrinsics</h1>
 				{extrinsics?.map((extrinsic) => (
 					<ExtrinsicSimple
