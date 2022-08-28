@@ -116,7 +116,8 @@ const useLatestBlock = (initialBlock: LatestBlock) => {
 };
 
 const useForm = () => {
-	const { updateState, overrideState, formInput, isBlockHash } = useActionState();
+	const { updateState, overrideState, formInput, isBlockHash } =
+		useActionState();
 
 	const getFullBlockAction = useCallback(async () => {
 		const { data, errors } = await execute(GET_FULL_BLOCK_ACTION, {
